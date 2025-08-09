@@ -13,14 +13,24 @@
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "cap:sync": "bunx cap sync",
+    "cap:build": "bun run build && bunx cap sync",
+    "cap:android": "bunx cap run android",
+    "cap:ios": "bunx cap run ios",
+    "cap:android:dev": "bunx cap run android --no-sync",
+    "cap:ios:dev": "bunx cap run ios --no-sync"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/ios": "^7.4.2",
+    "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1",
     "react-hook-form": "^7.48.2",
-    "lucide-react": "^0.294.0"
+    "react-router-dom": "^6.20.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
