@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# FoodyLog PWA
+Sitemap: /sitemap.xml
