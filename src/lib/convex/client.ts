@@ -12,15 +12,15 @@
  * - TypeScript integration with generated types
  */
 
-import { ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from 'convex/react';
 
 // Get Convex URL from environment variables
 const CONVEX_URL = import.meta.env.VITE_CONVEX_URL;
 
 if (!CONVEX_URL) {
   throw new Error(
-    "Missing VITE_CONVEX_URL environment variable. " +
-    "Please check your .env file and ensure Convex is properly configured."
+    'Missing VITE_CONVEX_URL environment variable. ' +
+    'Please check your .env file and ensure Convex is properly configured.',
   );
 }
 
@@ -40,7 +40,7 @@ export const convex = new ConvexReactClient(CONVEX_URL, {
   unsavedChangesWarning: false, // We handle this in our UI
   
   // WebSocket configuration for real-time updates
-  webSocketConstructor: typeof WebSocket !== "undefined" ? WebSocket : undefined,
+  webSocketConstructor: typeof WebSocket !== 'undefined' ? WebSocket : undefined,
 });
 
 /**
@@ -66,7 +66,7 @@ export const getConvexConnectionState = () => {
 export const convexConfig = {
   url: CONVEX_URL,
   isDevelopment: import.meta.env.DEV,
-  environment: import.meta.env.VITE_ENVIRONMENT || "development",
+  environment: import.meta.env.VITE_ENVIRONMENT || 'development',
 } as const;
 
 export default convex;

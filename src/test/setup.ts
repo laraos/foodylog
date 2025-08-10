@@ -5,14 +5,14 @@
  * Includes mocks for browser APIs and test utilities.
  */
 
-import { afterEach, vi } from 'vitest'
-import { cleanup } from '@testing-library/react'
-import '@testing-library/jest-dom'
+import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 // Cleanup after each test case
 afterEach(() => {
-  cleanup()
-})
+  cleanup();
+});
 
 // Mock environment variables
 vi.mock('import.meta', () => ({
@@ -21,8 +21,8 @@ vi.mock('import.meta', () => ({
     VITE_ENVIRONMENT: 'test',
     VITE_CONVEX_URL: 'https://test.convex.cloud',
     VITE_CLERK_PUBLISHABLE_KEY: 'pk_test_123',
-  }
-}))
+  },
+}));
 
 // Mock service worker
 Object.defineProperty(navigator, 'serviceWorker', {
@@ -33,7 +33,7 @@ Object.defineProperty(navigator, 'serviceWorker', {
     }),
   },
   writable: true,
-})
+});
 
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -48,21 +48,21 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-})
+});
 
 // Mock IntersectionObserver
 globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
-}))
+}));
 
 // Mock ResizeObserver
 globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
-}))
+}));
 
 // Mock localStorage
 const localStorageMock = {
@@ -70,8 +70,8 @@ const localStorageMock = {
   setItem: vi.fn(),
   removeItem: vi.fn(),
   clear: vi.fn(),
-}
-vi.stubGlobal('localStorage', localStorageMock)
+};
+vi.stubGlobal('localStorage', localStorageMock);
 
 // Mock sessionStorage
 const sessionStorageMock = {
@@ -79,11 +79,11 @@ const sessionStorageMock = {
   setItem: vi.fn(),
   removeItem: vi.fn(),
   clear: vi.fn(),
-}
-vi.stubGlobal('sessionStorage', sessionStorageMock)
+};
+vi.stubGlobal('sessionStorage', sessionStorageMock);
 
 // Mock fetch
-globalThis.fetch = vi.fn()
+globalThis.fetch = vi.fn();
 
 // Mock console methods in tests to reduce noise
 globalThis.console = {
@@ -93,4 +93,4 @@ globalThis.console = {
   info: vi.fn(),
   warn: vi.fn(),
   error: vi.fn(),
-}
+};

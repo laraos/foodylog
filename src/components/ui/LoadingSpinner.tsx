@@ -19,13 +19,13 @@ interface LoadingSpinnerProps {
 export function LoadingSpinner({ 
   size = 'md', 
   text = 'Loading...', 
-  className = '' 
+  className = '', 
 }: LoadingSpinnerProps) {
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-8 h-8',
-    lg: 'w-12 h-12'
-  }
+    lg: 'w-12 h-12',
+  };
 
   return (
     <div 
@@ -62,7 +62,7 @@ export function LoadingSpinner({
         </span>
       )}
     </div>
-  )
+  );
 }
 
 // Inline styles for the loading spinner
@@ -103,11 +103,11 @@ const styles = `
 .h-8 { height: 2rem; }
 .w-12 { width: 3rem; }
 .h-12 { height: 3rem; }
-`
+`;
 
 // Inject styles into document head
 if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style')
-  styleElement.textContent = styles
-  document.head.appendChild(styleElement)
+  const styleElement = document.createElement('style');
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
 }

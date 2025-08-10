@@ -8,8 +8,8 @@
  * These functions will be removed once the real meal functions are implemented.
  */
 
-import { query, mutation } from "../_generated/server";
-import { v } from "convex/values";
+import { query, mutation } from '../_generated/server';
+import { v } from 'convex/values';
 
 /**
  * Test query function
@@ -22,13 +22,13 @@ import { v } from "convex/values";
 export const testQuery = query({
   args: {},
   handler: async (_ctx) => {
-    console.log("Test query executed at:", new Date().toISOString());
+    console.log('Test query executed at:', new Date().toISOString());
     
     return {
-      message: "Hello from Convex! 🚀",
+      message: 'Hello from Convex! 🚀',
       timestamp: Date.now(),
-      environment: process.env.NODE_ENV || "development",
-      deployment: "FoodyLog Backend",
+      environment: process.env.NODE_ENV || 'development',
+      deployment: 'FoodyLog Backend',
     };
   },
 });
@@ -47,7 +47,7 @@ export const testMutation = mutation({
     message: v.string(),
   },
   handler: async (_ctx, args) => {
-    console.log("Test mutation executed with message:", args.message);
+    console.log('Test mutation executed with message:', args.message);
     
     // In a real mutation, we would insert/update data here
     // For now, we just return the message with metadata
@@ -55,8 +55,8 @@ export const testMutation = mutation({
     return {
       echo: args.message,
       receivedAt: Date.now(),
-      status: "success",
-      note: "This is a test mutation - no data was actually stored",
+      status: 'success',
+      note: 'This is a test mutation - no data was actually stored',
     };
   },
 });
@@ -76,7 +76,7 @@ export const testQueryWithArgs = query({
     count: v.optional(v.number()),
   },
   handler: async (_ctx, args) => {
-    const name = args.name || "Anonymous";
+    const name = args.name || 'Anonymous';
     const count = args.count || 1;
     
     console.log(`Test query with args - name: ${name}, count: ${count}`);
@@ -101,12 +101,12 @@ export const connectionTest = query({
   args: {},
   handler: async (_ctx) => {
     return {
-      status: "connected",
-      backend: "Convex",
-      project: "FoodyLog",
+      status: 'connected',
+      backend: 'Convex',
+      project: 'FoodyLog',
       timestamp: Date.now(),
       serverTime: new Date().toISOString(),
-      message: "Backend connection successful! ✅",
+      message: 'Backend connection successful! ✅',
     };
   },
 });

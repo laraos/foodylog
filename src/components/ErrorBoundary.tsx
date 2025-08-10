@@ -12,7 +12,7 @@
  * - Mobile-friendly error display
  */
 
-import { Component, ErrorInfo, ReactNode } from 'react'
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode
@@ -26,35 +26,35 @@ interface State {
 
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
-    super(props)
-    this.state = { hasError: false }
+    super(props);
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI
-    return { hasError: true, error }
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log error details for debugging
-    console.error('ErrorBoundary caught an error:', error, errorInfo)
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
     
     this.setState({
       error,
-      errorInfo
-    })
+      errorInfo,
+    });
 
     // TODO: Report error to external service (Sentry, etc.)
     // reportError(error, errorInfo)
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: undefined, errorInfo: undefined })
-  }
+    this.setState({ hasError: false, error: undefined, errorInfo: undefined });
+  };
 
   handleReload = () => {
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   render() {
     if (this.state.hasError) {
@@ -83,7 +83,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </h1>
             
             <p className="error-boundary__message">
-              We're sorry, but something unexpected happened. Don't worry - your meal data is safe.
+              We&apos;re sorry, but something unexpected happened. Don&apos;t worry - your meal data is safe.
             </p>
             
             <div className="error-boundary__actions">
@@ -113,10 +113,10 @@ export class ErrorBoundary extends Component<Props, State> {
             )}
           </div>
         </div>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
 
@@ -212,11 +212,11 @@ const styles = `
     width: 100%;
   }
 }
-`
+`;
 
 // Inject styles into document head
 if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style')
-  styleElement.textContent = styles
-  document.head.appendChild(styleElement)
+  const styleElement = document.createElement('style');
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
 }

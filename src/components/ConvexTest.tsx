@@ -27,7 +27,7 @@ export const ConvexTest: React.FC = () => {
   // Test query with arguments
   const testQueryWithArgsResult = useQuery(api.functions.test.testQueryWithArgs, {
     name: 'FoodyLog User',
-    count: 42
+    count: 42,
   });
 
   // Connection test query
@@ -43,7 +43,7 @@ export const ConvexTest: React.FC = () => {
     } catch (error) {
       console.error('Mutation failed:', error);
       setMutationResult({
-        error: error instanceof Error ? error.message : 'Unknown error occurred'
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
       });
     }
   };

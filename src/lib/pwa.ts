@@ -12,9 +12,9 @@
  * - Error handling for registration failures
  */
 
-import { Workbox } from 'workbox-window'
+import { Workbox } from 'workbox-window';
 
-let wb: Workbox | undefined
+let wb: Workbox | undefined;
 
 /**
  * Register service worker for PWA functionality
@@ -25,48 +25,48 @@ let wb: Workbox | undefined
  */
 export function registerSW() {
   if ('serviceWorker' in navigator) {
-    wb = new Workbox('/sw.js')
+    wb = new Workbox('/sw.js');
 
     // Service worker installed for the first time
     wb.addEventListener('installed', (event) => {
-      console.log('Service worker installed:', event)
+      console.log('Service worker installed:', event);
       
       if (!event.isUpdate) {
-        showToast('App is ready for offline use!', 'success')
+        showToast('App is ready for offline use!', 'success');
       }
-    })
+    });
 
     // New service worker is waiting to activate
     wb.addEventListener('waiting', (event) => {
-      console.log('New service worker waiting:', event)
-      showUpdateToast()
-    })
+      console.log('New service worker waiting:', event);
+      showUpdateToast();
+    });
 
     // Service worker activated and controlling the page
     wb.addEventListener('controlling', (event) => {
-      console.log('Service worker controlling:', event)
-      showToast('App updated successfully!', 'success')
+      console.log('Service worker controlling:', event);
+      showToast('App updated successfully!', 'success');
       
       // Reload the page to ensure all resources are updated
-      window.location.reload()
-    })
+      window.location.reload();
+    });
 
     // Service worker registration failed
     wb.addEventListener('redundant', (event) => {
-      console.warn('Service worker redundant:', event)
-    })
+      console.warn('Service worker redundant:', event);
+    });
 
     // Register the service worker
     wb.register()
       .then((registration) => {
-        console.log('Service worker registered:', registration)
+        console.log('Service worker registered:', registration);
       })
       .catch((error) => {
-        console.error('Service worker registration failed:', error)
-        showToast('Failed to enable offline features', 'error')
-      })
+        console.error('Service worker registration failed:', error);
+        showToast('Failed to enable offline features', 'error');
+      });
   } else {
-    console.warn('Service workers are not supported in this browser')
+    console.warn('Service workers are not supported in this browser');
   }
 }
 
@@ -85,20 +85,20 @@ function showUpdateToast() {
         text: 'Update',
         action: () => {
           if (wb) {
-            wb.messageSkipWaiting()
+            wb.messageSkipWaiting();
           }
-        }
+        },
       },
       {
         text: 'Later',
         action: () => {
           // Just dismiss the toast
-        }
-      }
-    ]
-  )
+        },
+      },
+    ],
+  );
   
-  showToastElement(toast)
+  showToastElement(toast);
 }
 
 /**
@@ -109,8 +109,8 @@ function showUpdateToast() {
  * @param duration - How long to show the toast (ms)
  */
 function showToast(message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration = 5000) {
-  const toast = createToast(message, type)
-  showToastElement(toast, duration)
+  const toast = createToast(message, type);
+  showToastElement(toast, duration);
 }
 
 /**
@@ -123,39 +123,39 @@ function showToast(message: string, type: 'success' | 'error' | 'info' | 'warnin
 function createToast(
   message: string, 
   type: string, 
-  actions?: Array<{ text: string; action: () => void }>
+  actions?: Array<{ text: string; action: () => void }>,
 ) {
-  const toast = document.createElement('div')
-  toast.className = `toast toast--${type}`
+  const toast = document.createElement('div');
+  toast.className = `toast toast--${type}`;
   
-  const content = document.createElement('div')
-  content.className = 'toast__content'
+  const content = document.createElement('div');
+  content.className = 'toast__content';
   
-  const messageEl = document.createElement('span')
-  messageEl.className = 'toast__message'
-  messageEl.textContent = message
-  content.appendChild(messageEl)
+  const messageEl = document.createElement('span');
+  messageEl.className = 'toast__message';
+  messageEl.textContent = message;
+  content.appendChild(messageEl);
   
   if (actions) {
-    const actionsEl = document.createElement('div')
-    actionsEl.className = 'toast__actions'
+    const actionsEl = document.createElement('div');
+    actionsEl.className = 'toast__actions';
     
     actions.forEach(action => {
-      const button = document.createElement('button')
-      button.className = 'toast__button'
-      button.textContent = action.text
+      const button = document.createElement('button');
+      button.className = 'toast__button';
+      button.textContent = action.text;
       button.onclick = () => {
-        action.action()
-        toast.remove()
-      }
-      actionsEl.appendChild(button)
-    })
+        action.action();
+        toast.remove();
+      };
+      actionsEl.appendChild(button);
+    });
     
-    content.appendChild(actionsEl)
+    content.appendChild(actionsEl);
   }
   
-  toast.appendChild(content)
-  return toast
+  toast.appendChild(content);
+  return toast;
 }
 
 /**
@@ -166,29 +166,29 @@ function createToast(
  */
 function showToastElement(toast: HTMLElement, duration = 0) {
   // Create toast container if it doesn't exist
-  let container = document.getElementById('toast-container')
+  let container = document.getElementById('toast-container');
   if (!container) {
-    container = document.createElement('div')
-    container.id = 'toast-container'
-    container.className = 'toast-container'
-    document.body.appendChild(container)
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
   }
   
-  container.appendChild(toast)
+  container.appendChild(toast);
   
   // Animate in
   requestAnimationFrame(() => {
-    toast.classList.add('toast--show')
-  })
+    toast.classList.add('toast--show');
+  });
   
   // Auto-dismiss if duration is set
   if (duration > 0) {
     setTimeout(() => {
-      toast.classList.remove('toast--show')
+      toast.classList.remove('toast--show');
       setTimeout(() => {
-        toast.remove()
-      }, 300) // Wait for animation
-    }, duration)
+        toast.remove();
+      }, 300); // Wait for animation
+    }, duration);
   }
 }
 
@@ -297,11 +297,11 @@ const toastStyles = `
     justify-content: center;
   }
 }
-`
+`;
 
 // Inject toast styles
 if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style')
-  styleElement.textContent = toastStyles
-  document.head.appendChild(styleElement)
+  const styleElement = document.createElement('style');
+  styleElement.textContent = toastStyles;
+  document.head.appendChild(styleElement);
 }

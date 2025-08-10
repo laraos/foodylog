@@ -12,7 +12,7 @@
  * - Accessibility compliant structure
  */
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 export function NotFoundPage() {
   return (
@@ -40,7 +40,7 @@ export function NotFoundPage() {
         </h1>
         
         <p className="not-found-page__message">
-          Sorry, we couldn't find the page you're looking for. 
+          Sorry, we couldn&apos;t find the page you&apos;re looking for. 
           It might have been moved, deleted, or you entered the wrong URL.
         </p>
         
@@ -67,13 +67,13 @@ export function NotFoundPage() {
           
           <ul className="not-found-page__help-list">
             <li>Check the URL for typos</li>
-            <li>Use the navigation menu to find what you're looking for</li>
+            <li>Use the navigation menu to find what you&apos;re looking for</li>
             <li>Go back to the home page and start over</li>
           </ul>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Inline styles for NotFoundPage
@@ -207,11 +207,11 @@ const styles = `
     padding: var(--spacing-4);
   }
 }
-`
+`;
 
 // Inject styles into document head
 if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style')
-  styleElement.textContent = styles
-  document.head.appendChild(styleElement)
+  const styleElement = document.createElement('style');
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
 }

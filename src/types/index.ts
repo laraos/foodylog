@@ -5,7 +5,7 @@
  * the FoodyLog application. Organized by feature and domain.
  */
 
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 // Environment variables
 export interface ImportMetaEnv {

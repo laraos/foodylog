@@ -11,8 +11,8 @@
  * - Performance: Indexed fields for common queries
  */
 
-import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { defineSchema, defineTable } from 'convex/server';
+import { v } from 'convex/values';
 
 export default defineSchema({
   /**
@@ -31,12 +31,12 @@ export default defineSchema({
     
     // User preferences
     preferences: v.optional(v.object({
-      theme: v.union(v.literal("light"), v.literal("dark"), v.literal("system")),
+      theme: v.union(v.literal('light'), v.literal('dark'), v.literal('system')),
       defaultMealType: v.optional(v.union(
-        v.literal("breakfast"),
-        v.literal("lunch"), 
-        v.literal("dinner"),
-        v.literal("snack")
+        v.literal('breakfast'),
+        v.literal('lunch'), 
+        v.literal('dinner'),
+        v.literal('snack'),
       )),
       currency: v.optional(v.string()), // ISO currency code (USD, EUR, etc.)
       timezone: v.optional(v.string()), // IANA timezone
@@ -44,7 +44,7 @@ export default defineSchema({
     
     // Subscription information (freemium model)
     subscription: v.optional(v.object({
-      tier: v.union(v.literal("free"), v.literal("premium")),
+      tier: v.union(v.literal('free'), v.literal('premium')),
       expiresAt: v.optional(v.number()), // timestamp
       stripeCustomerId: v.optional(v.string()),
     })),
@@ -62,8 +62,8 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_clerk_id", ["clerkId"])
-    .index("by_email", ["email"]),
+    .index('by_clerk_id', ['clerkId'])
+    .index('by_email', ['email']),
 
   /**
    * Meals table - Core meal logging data
@@ -71,16 +71,16 @@ export default defineSchema({
    */
   meals: defineTable({
     // User association
-    userId: v.id("users"),
+    userId: v.id('users'),
     
     // Basic meal information (available to all users)
     title: v.string(), // max 100 characters
     rating: v.number(), // 1-10 scale
     mealType: v.union(
-      v.literal("breakfast"),
-      v.literal("lunch"),
-      v.literal("dinner"),
-      v.literal("snack")
+      v.literal('breakfast'),
+      v.literal('lunch'),
+      v.literal('dinner'),
+      v.literal('snack'),
     ),
     
     // Optional meal details
@@ -119,9 +119,9 @@ export default defineSchema({
     
     // Offline sync support
     syncStatus: v.union(
-      v.literal("synced"),
-      v.literal("pending"),
-      v.literal("conflict")
+      v.literal('synced'),
+      v.literal('pending'),
+      v.literal('conflict'),
     ),
     lastSyncedAt: v.optional(v.number()),
     
@@ -130,15 +130,15 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_user", ["userId"])
-    .index("by_user_date", ["userId", "mealDate"])
-    .index("by_user_type", ["userId", "mealType"])
-    .index("by_user_rating", ["userId", "rating"])
-    .index("by_sync_status", ["syncStatus"])
-    .index("by_public", ["isPublic"])
-    .searchIndex("search_meals", {
-      searchField: "title",
-      filterFields: ["userId", "mealType", "tags"]
+    .index('by_user', ['userId'])
+    .index('by_user_date', ['userId', 'mealDate'])
+    .index('by_user_type', ['userId', 'mealType'])
+    .index('by_user_rating', ['userId', 'rating'])
+    .index('by_sync_status', ['syncStatus'])
+    .index('by_public', ['isPublic'])
+    .searchIndex('search_meals', {
+      searchField: 'title',
+      filterFields: ['userId', 'mealType', 'tags'],
     }),
 
   /**
@@ -146,8 +146,8 @@ export default defineSchema({
    * Links to Convex file storage for actual image data
    */
   mealPhotos: defineTable({
-    mealId: v.id("meals"),
-    userId: v.id("users"), // For direct user queries
+    mealId: v.id('meals'),
+    userId: v.id('users'), // For direct user queries
     
     // File storage reference
     storageId: v.string(), // Convex file storage ID
@@ -166,27 +166,27 @@ export default defineSchema({
     
     // Processing status
     processingStatus: v.union(
-      v.literal("uploading"),
-      v.literal("processing"),
-      v.literal("ready"),
-      v.literal("error")
+      v.literal('uploading'),
+      v.literal('processing'),
+      v.literal('ready'),
+      v.literal('error'),
     ),
     
     // Timestamps
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_meal", ["mealId"])
-    .index("by_user", ["userId"])
-    .index("by_meal_order", ["mealId", "order"])
-    .index("by_processing_status", ["processingStatus"]),
+    .index('by_meal', ['mealId'])
+    .index('by_user', ['userId'])
+    .index('by_meal_order', ['mealId', 'order'])
+    .index('by_processing_status', ['processingStatus']),
 
   /**
    * User tags table - For tag autocomplete and analytics
    * Tracks user's personal tag usage patterns
    */
   userTags: defineTable({
-    userId: v.id("users"),
+    userId: v.id('users'),
     tag: v.string(),
     
     // Usage statistics
@@ -201,16 +201,16 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_user", ["userId"])
-    .index("by_user_usage", ["userId", "usageCount"])
-    .index("by_user_recent", ["userId", "lastUsedAt"]),
+    .index('by_user', ['userId'])
+    .index('by_user_usage', ['userId', 'usageCount'])
+    .index('by_user_recent', ['userId', 'lastUsedAt']),
 
   /**
    * Analytics cache table - Pre-computed analytics for performance
    * Reduces real-time calculation load for dashboard views
    */
   analyticsCache: defineTable({
-    userId: v.id("users"),
+    userId: v.id('users'),
     
     // Cache key and period
     cacheKey: v.string(), // e.g., "monthly_stats_2024_01"
@@ -226,7 +226,7 @@ export default defineSchema({
     expiresAt: v.number(),
     version: v.string(), // For cache invalidation
   })
-    .index("by_user_key", ["userId", "cacheKey"])
-    .index("by_user_period", ["userId", "period"])
-    .index("by_expires", ["expiresAt"]),
+    .index('by_user_key', ['userId', 'cacheKey'])
+    .index('by_user_period', ['userId', 'period'])
+    .index('by_expires', ['expiresAt']),
 });

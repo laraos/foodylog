@@ -12,7 +12,7 @@
  * - Accessibility landmarks
  */
 
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 interface LayoutProps {
   children: ReactNode
@@ -50,7 +50,7 @@ export function Layout({ children }: LayoutProps) {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 // Inline styles for Layout component
@@ -144,11 +144,11 @@ const styles = `
     padding: var(--spacing-6);
   }
 }
-`
+`;
 
 // Inject styles into document head
 if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style')
-  styleElement.textContent = styles
-  document.head.appendChild(styleElement)
+  const styleElement = document.createElement('style');
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
 }

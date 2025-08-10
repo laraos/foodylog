@@ -7,7 +7,6 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    '@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
@@ -49,8 +48,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off', // Not needed with React 17+
     'react/jsx-uses-react': 'off', // Not needed with React 17+
     
-    // TypeScript specific rules
-    '@typescript-eslint/no-unused-vars': [
+    // General JavaScript/TypeScript rules
+    'no-unused-vars': [
       'error', 
       { 
         argsIgnorePattern: '^_',
@@ -58,12 +57,6 @@ module.exports = {
         ignoreRestSiblings: true 
       }
     ],
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'warn',
-    
-    // General JavaScript/TypeScript rules
     'prefer-const': 'error',
     'no-var': 'error',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -75,13 +68,9 @@ module.exports = {
     // Code style rules (handled by Prettier, but good to have as backup)
     'semi': ['error', 'always'],
     'quotes': ['error', 'single', { avoidEscape: true }],
-    'comma-dangle': ['error', 'es5'],
+    'comma-dangle': ['error', 'always-multiline'],
     
     // Import/Export rules
     'no-duplicate-imports': 'error',
-    'sort-imports': ['error', { 
-      ignoreCase: true, 
-      ignoreDeclarationSort: true 
-    }],
   },
-}
+};

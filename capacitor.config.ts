@@ -10,16 +10,16 @@ const config: CapacitorConfig = {
     // Android Emulator: CAP_SERVER_URL=http://10.0.2.2:5173
     // Physical device: CAP_SERVER_URL=http://YOUR_PC_IP:5173
     url: process.env.CAP_SERVER_URL,
-    cleartext: true
+    cleartext: true,
   },
   plugins: {
     // Configure plugins for FoodyLog features
     SplashScreen: {
       launchShowDuration: 2000,
       backgroundColor: '#ffffff',
-      showSpinner: false
-    }
-  }
+      showSpinner: false,
+    },
+  },
 };
 
 export default config;

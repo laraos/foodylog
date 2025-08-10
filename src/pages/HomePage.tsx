@@ -2,218 +2,150 @@
  * HomePage - Landing page for FoodyLog application
  * 
  * Displays welcome message and basic app information for MVP.
+ * Now includes shadcn/ui components with FoodyLog custom theme.
  * Will be expanded in future sprints to show meal dashboard,
  * quick actions, and recent meals.
  * 
  * Features:
  * - Welcome message for new users
  * - App version and status information
- * - Convex backend connection test (temporary for Sprint 1)
+ * - Theme toggle demonstration
+ * - shadcn/ui components with custom FoodyLog theme
  * - Mobile-friendly responsive design
  * - Accessibility compliant structure
  */
 
 import { ConvexTest } from '../components/ConvexTest';
+import { Button } from '../components/ui/button';
+import { ThemeToggle } from '../components/theme-toggle';
+import { Camera, Search, BarChart3, Smartphone } from 'lucide-react';
 
 export function HomePage() {
   return (
-    <div className="home-page">
-      <div className="home-page__hero">
-        <h1 className="home-page__title">
+    <div className="flex flex-col gap-8 min-h-full p-4">
+      {/* Hero Section with Theme Toggle */}
+      <div className="text-center py-8">
+        <div className="flex justify-end mb-4">
+          <ThemeToggle />
+        </div>
+        
+        <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
           Welcome to FoodyLog
         </h1>
         
-        <p className="home-page__subtitle">
+        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
           The simplest way to remember every meal that matters
         </p>
         
-        <div className="home-page__features">
-          <div className="home-page__feature">
-            <div className="home-page__feature-icon">📸</div>
-            <h3 className="home-page__feature-title">Capture Meals</h3>
-            <p className="home-page__feature-description">
-              Take photos and log details about your favorite meals
-            </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button size="lg" className="flex items-center gap-2">
+            <Camera className="w-5 h-5" />
+            Start Logging Meals
+          </Button>
+          <Button variant="outline" size="lg">
+            Learn More
+          </Button>
+        </div>
+      </div>
+
+      {/* Features Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        <div className="bg-card text-card-foreground p-6 rounded-lg border border-border hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-4 mx-auto">
+            <Camera className="w-6 h-6 text-primary" />
           </div>
-          
-          <div className="home-page__feature">
-            <div className="home-page__feature-icon">🔍</div>
-            <h3 className="home-page__feature-title">Find & Filter</h3>
-            <p className="home-page__feature-description">
-              Search and filter your meal history to find what you're looking for
-            </p>
+          <h3 className="text-lg font-semibold text-foreground mb-2 text-center">
+            Capture Meals
+          </h3>
+          <p className="text-muted-foreground text-center leading-relaxed">
+            Take photos and log details about your favorite meals
+          </p>
+        </div>
+        
+        <div className="bg-card text-card-foreground p-6 rounded-lg border border-border hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-4 mx-auto">
+            <Search className="w-6 h-6 text-primary" />
           </div>
-          
-          <div className="home-page__feature">
-            <div className="home-page__feature-icon">📊</div>
-            <h3 className="home-page__feature-title">Track Insights</h3>
-            <p className="home-page__feature-description">
-              Get insights into your eating patterns and preferences
-            </p>
+          <h3 className="text-lg font-semibold text-foreground mb-2 text-center">
+            Find & Filter
+          </h3>
+          <p className="text-muted-foreground text-center leading-relaxed">
+            Search and filter your meal history to find what you&apos;re looking for
+          </p>
+        </div>
+        
+        <div className="bg-card text-card-foreground p-6 rounded-lg border border-border hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-4 mx-auto">
+            <BarChart3 className="w-6 h-6 text-primary" />
           </div>
-          
-          <div className="home-page__feature">
-            <div className="home-page__feature-icon">📱</div>
-            <h3 className="home-page__feature-title">Works Offline</h3>
-            <p className="home-page__feature-description">
-              Log meals even without internet - syncs when you're back online
-            </p>
+          <h3 className="text-lg font-semibold text-foreground mb-2 text-center">
+            Track Insights
+          </h3>
+          <p className="text-muted-foreground text-center leading-relaxed">
+            Get insights into your eating patterns and preferences
+          </p>
+        </div>
+        
+        <div className="bg-card text-card-foreground p-6 rounded-lg border border-border hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-4 mx-auto">
+            <Smartphone className="w-6 h-6 text-primary" />
           </div>
+          <h3 className="text-lg font-semibold text-foreground mb-2 text-center">
+            Works Offline
+          </h3>
+          <p className="text-muted-foreground text-center leading-relaxed">
+            Log meals even without internet - syncs when you&apos;re back online
+          </p>
+        </div>
+      </div>
+      
+      {/* Theme Demo Section */}
+      <div className="bg-card text-card-foreground p-6 rounded-lg border border-border mt-8">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
+          🎨 FoodyLog Custom Theme Demo
+        </h2>
+        <p className="text-muted-foreground mb-4">
+          This page demonstrates the FoodyLog custom theme with warm cream/brown colors and green accents.
+          Try switching between light, dark, and system themes using the toggle above.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="default">Primary Button</Button>
+          <Button variant="secondary">Secondary Button</Button>
+          <Button variant="outline">Outline Button</Button>
+          <Button variant="ghost">Ghost Button</Button>
+          <Button variant="destructive">Destructive Button</Button>
         </div>
       </div>
       
       {/* Convex Backend Connection Test - Remove after Sprint 1 */}
       <ConvexTest />
       
-      <div className="home-page__status">
-        <div className="home-page__status-item">
-          <span className="home-page__status-label">Version:</span>
-          <span className="home-page__status-value">
-            {import.meta.env.VITE_APP_VERSION || '1.0.0'}
-          </span>
-        </div>
-        
-        <div className="home-page__status-item">
-          <span className="home-page__status-label">Environment:</span>
-          <span className="home-page__status-value">
-            {import.meta.env.VITE_ENVIRONMENT || 'development'}
-          </span>
-        </div>
-        
-        <div className="home-page__status-item">
-          <span className="home-page__status-label">PWA:</span>
-          <span className="home-page__status-value">
-            {'serviceWorker' in navigator ? 'Supported' : 'Not Supported'}
-          </span>
+      {/* Status Information */}
+      <div className="bg-card text-card-foreground rounded-lg border border-border p-4 mt-auto">
+        <div className="space-y-2">
+          <div className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
+            <span className="font-medium text-foreground">Version:</span>
+            <span className="text-muted-foreground font-mono text-sm">
+              {import.meta.env.VITE_APP_VERSION || '1.0.0'}
+            </span>
+          </div>
+          
+          <div className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
+            <span className="font-medium text-foreground">Environment:</span>
+            <span className="text-muted-foreground font-mono text-sm">
+              {import.meta.env.VITE_ENVIRONMENT || 'development'}
+            </span>
+          </div>
+          
+          <div className="flex justify-between items-center py-2">
+            <span className="font-medium text-foreground">PWA:</span>
+            <span className="text-muted-foreground font-mono text-sm">
+              {'serviceWorker' in navigator ? 'Supported' : 'Not Supported'}
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-// Inline styles for HomePage
-const styles = `
-.home-page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-8);
-  min-height: 100%;
-}
-
-.home-page__hero {
-  text-align: center;
-  padding: var(--spacing-8) 0;
-}
-
-.home-page__title {
-  font-size: var(--font-size-3xl);
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-4);
-}
-
-.home-page__subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-8);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.home-page__features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-6);
-  margin-top: var(--spacing-8);
-}
-
-.home-page__feature {
-  text-align: center;
-  padding: var(--spacing-6);
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.home-page__feature:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.home-page__feature-icon {
-  font-size: var(--font-size-3xl);
-  margin-bottom: var(--spacing-3);
-}
-
-.home-page__feature-title {
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-2);
-}
-
-.home-page__feature-description {
-  color: var(--color-text-muted);
-  line-height: 1.6;
-}
-
-.home-page__status {
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-4);
-  border: 1px solid var(--color-border);
-  margin-top: auto;
-}
-
-.home-page__status-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-2) 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.home-page__status-item:last-child {
-  border-bottom: none;
-}
-
-.home-page__status-label {
-  font-weight: 500;
-  color: var(--color-text);
-}
-
-.home-page__status-value {
-  color: var(--color-text-muted);
-  font-family: monospace;
-  font-size: var(--font-size-sm);
-}
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .home-page__title {
-    font-size: var(--font-size-2xl);
-  }
-  
-  .home-page__subtitle {
-    font-size: var(--font-size-base);
-  }
-  
-  .home-page__features {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-4);
-  }
-  
-  .home-page__feature {
-    padding: var(--spacing-4);
-  }
-}
-`
-
-// Inject styles into document head
-if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style')
-  styleElement.textContent = styles
-  document.head.appendChild(styleElement)
-}

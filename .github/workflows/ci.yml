@@ -7,8 +7,16 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main, develop]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.vscode/**'
   pull_request:
     branches: [main, develop]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.vscode/**'
 
 # Cancel previous runs if a new commit is pushed
 concurrency:
@@ -60,6 +68,9 @@ jobs:
       - name: Lint code
         run: bun run lint
         
+      - name: Check formatting
+        run: bun run format:check
+        
       - name: Run tests
         run: bun run test:coverage
         
@@ -70,6 +81,16 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
           fail_ci_if_error: false
+          
+      - name: Store test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: |
+            coverage/
+            test-results.xml
+          retention-days: 7
 
   # Build web application
   build-web:
