@@ -15,17 +15,30 @@
  * - Handles account deletion through Clerk
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useUserPreferences, useCurrencyPreference, useDefaultMealTypePreference } from '../hooks/useUserPreferences';
 import { useTheme } from '../lib/theme';
-import { Button } from '../components/ui/button';
+import { 
+  Button, 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle,
+  Tabs, 
+  TabsContent, 
+  TabsList, 
+  TabsTrigger,
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue, 
+  Badge, 
+} from '../components/ui';
 import { UserProfile } from '../components/auth/UserProfile';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Badge } from '../components/ui/badge';
-import { Separator } from '../components/ui/separator';
+
 
 /**
  * Currency options for the currency selector
@@ -54,10 +67,10 @@ const MEAL_TYPE_OPTIONS = [
 export function SettingsPage() {
   const { user, isAuthenticated } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { preferences, updatePreferences, isLoading: preferencesLoading, error } = useUserPreferences();
+  const { updatePreferences, isLoading: preferencesLoading, error } = useUserPreferences();
   const { currency, setCurrency } = useCurrencyPreference();
   const { defaultMealType, setDefaultMealType } = useDefaultMealTypePreference();
-  
+
   // Local state for UI
   const [activeTab, setActiveTab] = useState('profile');
   const [isUpdating, setIsUpdating] = useState(false);
@@ -91,10 +104,10 @@ export function SettingsPage() {
   /**
    * Handle default meal type change
    */
-  const handleDefaultMealTypeChange = async (newMealType: 'breakfast' | 'lunch' | 'dinner' | 'snack') => {
+  const handleDefaultMealTypeChange = async (newMealType: string) => {
     setIsUpdating(true);
     try {
-      await setDefaultMealType(newMealType);
+      await setDefaultMealType(newMealType as 'breakfast' | 'lunch' | 'dinner' | 'snack');
     } catch (err) {
       console.error('Failed to update default meal type:', err);
     } finally {
@@ -148,7 +161,7 @@ export function SettingsPage() {
         {/* Preferences Tab - FoodyLog-specific preferences */}
         <TabsContent value="preferences" className="space-y-6">
           <div className="grid gap-6">
-            
+
             {/* Appearance Settings */}
             <Card>
               <CardHeader>
@@ -206,13 +219,13 @@ export function SettingsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                
+
                 {/* Default Meal Type */}
                 <div>
                   <label className="text-sm font-medium mb-2 block">Default Meal Type</label>
                   <Select
                     value={defaultMealType || ''}
-                    onValueChange={(value) => handleDefaultMealTypeChange(value as any)}
+                    onValueChange={handleDefaultMealTypeChange}
                     disabled={isUpdating}
                   >
                     <SelectTrigger className="w-full">
@@ -296,7 +309,7 @@ export function SettingsPage() {
         {/* Account Tab - Account management */}
         <TabsContent value="account" className="space-y-6">
           <div className="grid gap-6">
-            
+
             {/* Account Information */}
             <Card>
               <CardHeader>
@@ -324,7 +337,7 @@ export function SettingsPage() {
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Member Since</label>
                     <p className="text-sm">
-                      {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
+                      Recently joined
                     </p>
                   </div>
                 </div>
@@ -373,8 +386,8 @@ export function SettingsPage() {
                       Permanently delete your account and all associated data. This action cannot be undone.
                     </p>
                     <p className="text-xs text-muted-foreground mb-3">
-                      Account deletion is handled through your profile settings above. 
-                      Navigate to the Profile tab and use Clerk's account management features.
+                      Account deletion is handled through your profile settings above.
+                      Navigate to the Profile tab and use Clerk&apos;s account management features.
                     </p>
                   </div>
                 </div>

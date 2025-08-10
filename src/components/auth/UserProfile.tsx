@@ -23,7 +23,7 @@ interface UserProfileProps {
   /**
    * Optional routing configuration for Clerk UserProfile
    */
-  routing?: 'hash' | 'path' | 'virtual';
+  routing?: 'hash' | 'virtual';
   
   /**
    * Optional path for routing (when using path routing)
@@ -49,8 +49,6 @@ interface UserProfileProps {
  */
 export const UserProfile: React.FC<UserProfileProps> = ({
   routing = 'hash',
-  path,
-  redirectUrl,
 }) => {
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -68,8 +66,6 @@ export const UserProfile: React.FC<UserProfileProps> = ({
       <div className="bg-card border border-border rounded-lg overflow-hidden">
         <ClerkUserProfile
           routing={routing}
-          path={path}
-          redirectUrl={redirectUrl}
           appearance={{
             elements: {
               // Main container styling
