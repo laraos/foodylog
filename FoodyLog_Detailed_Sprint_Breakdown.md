@@ -156,9 +156,11 @@ Acceptance Criteria:
 
 Dependencies: Story 1.1.1
 Assignee: Full-Stack Developer + UI/UX Designer
-**Story 1.2.2: Core UI Components** (8 points)
 ```
 
+**Story 1.2.2: Core UI Components** (8 points)
+
+```
 As a developer, I want essential UI components built
 so that I can create consistent interfaces.
 
@@ -184,8 +186,8 @@ Assignee: Full-Stack Developer
 ```
 
 **Story 1.2.3: Layout and Navigation (SPA)** (4 points)
-```
 
+```
 As a user, I want consistent navigation throughout the app
 so that I can easily move between sections.
 

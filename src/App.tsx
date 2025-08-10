@@ -12,6 +12,7 @@ import { Suspense } from 'react';
 import { ThemeProvider } from './lib/theme';
 import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/HomePage';
+import { ComponentDemo } from './pages/ComponentDemo';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
@@ -22,6 +23,7 @@ function App() {
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/components" element={<ComponentDemo />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

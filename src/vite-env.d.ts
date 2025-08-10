@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv {
+interface _ImportMetaEnv {
   readonly VITE_APP_VERSION: string
   readonly VITE_ENVIRONMENT: 'development' | 'staging' | 'production'
   readonly VITE_CONVEX_URL: string
