@@ -70,3 +70,8 @@ export {
   ServerError,
   ValidationError,
 } from './error';
+
+// Additional UI components for user profile management
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
+export { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator } from './select';
+export { Separator } from './separator';
