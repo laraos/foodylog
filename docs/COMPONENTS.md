@@ -254,6 +254,175 @@ import { ErrorBoundary } from '~/components/ErrorBoundary';
 
 Development component for testing Convex integration.
 
+## 🔐 Authentication Components
+
+> **Note**: Authentication components have been updated to use the latest Clerk API patterns. Deprecated properties (`redirectUrl`, `afterSignInUrl`, `afterSignUpUrl`) have been replaced with new fallback redirect properties (`fallbackRedirectUrl`, `signInFallbackRedirectUrl`, `signUpFallbackRedirectUrl`) for better control over post-authentication navigation.
+
+### SignInPage
+**Location**: `src/components/auth/SignInPage.tsx`
+
+Complete sign-in page component using Clerk's pre-built SignIn component with FoodyLog branding and custom styling.
+
+```typescript
+import { SignInPage } from '~/components/auth/SignInPage';
+
+// Used in App.tsx routing
+<Route path="/auth/sign-in/*" element={<SignInPage />} />
+```
+
+**Features:**
+- Clerk's accessible and secure sign-in form
+- Custom FoodyLog branding and styling
+- Mobile-optimized layout with responsive design
+- Automatic redirect to intended destination after sign-in
+- Integration with react-router-dom for SPA navigation
+- Loading states during authentication checks
+- Error handling for authentication issues
+
+**Props:** None (self-contained component)
+
+### SignUpPage
+**Location**: `src/components/auth/SignUpPage.tsx`
+
+Complete sign-up page component using Clerk's pre-built SignUp component with FoodyLog branding and feature preview.
+
+```typescript
+import { SignUpPage } from '~/components/auth/SignUpPage';
+
+// Used in App.tsx routing
+<Route path="/auth/sign-up/*" element={<SignUpPage />} />
+```
+
+**Features:**
+- Clerk's accessible and secure sign-up form
+- Custom FoodyLog branding and styling
+- Mobile-optimized layout with responsive design
+- Email verification flow integration
+- Feature preview showcasing FoodyLog benefits
+- Automatic redirect to intended destination after sign-up
+- Integration with react-router-dom for SPA navigation
+
+**Props:** None (self-contained component)
+
+### ProtectedRoute
+**Location**: `src/components/auth/ProtectedRoute.tsx`
+
+Route wrapper component that ensures users are authenticated before accessing protected content.
+
+```typescript
+import { ProtectedRoute, PublicRoute, RequireAuth } from '~/components/auth/ProtectedRoute';
+
+// Protect entire page
+<ProtectedRoute>
+  <MealListPage />
+</ProtectedRoute>
+
+// Public-only route (redirects authenticated users)
+<PublicRoute>
+  <LandingPage />
+</PublicRoute>
+
+// Require auth in component (throws error if not authenticated)
+<RequireAuth>
+  <UserProfile />
+</RequireAuth>
+```
+
+**Features:**
+- Authentication state checking with Clerk integration
+- Automatic redirect to sign-in page for unauthenticated users
+- Preserves intended destination for post-auth redirect
+- Loading states during authentication checks
+- Error handling for authentication issues
+- Support for public-only routes
+- RequireAuth variant for components that must have authentication
+
+**Props:**
+- `children: React.ReactNode` - Protected content to render
+- `fallback?: React.ReactNode` - Custom loading component
+- `redirectTo?: string` - Custom redirect path (defaults to /auth/sign-in)
+
+### DevelopmentAuthWrapper
+**Location**: `src/components/auth/DevelopmentAuthWrapper.tsx`
+
+Development helper component that shows setup instructions when Clerk is not properly configured.
+
+```typescript
+import { DevelopmentAuthWrapper } from '~/components/auth/DevelopmentAuthWrapper';
+
+// Used in main.tsx
+<DevelopmentAuthWrapper isClerkConfigured={isClerkConfigured}>
+  <App />
+</DevelopmentAuthWrapper>
+```
+
+**Features:**
+- Detects if Clerk is properly configured
+- Shows step-by-step setup instructions for developers
+- Explains why Clerk is used for FoodyLog
+- Links to relevant documentation
+- Styled with FoodyLog design system
+- Only shows in development when Clerk is not configured
+
+**Props:**
+- `children: React.ReactNode` - App content to render when configured
+- `isClerkConfigured: boolean` - Whether Clerk is properly set up
+
+## 🔐 Authentication Patterns
+
+### useAuth Hook
+**Location**: `src/hooks/useAuth.ts`
+
+Custom hook that provides unified authentication state management across FoodyLog.
+
+```typescript
+import { useAuth, useRequireAuth, useAuthRedirect } from '~/hooks/useAuth';
+
+// Basic usage
+const { isAuthenticated, user, isLoading, signOut } = useAuth();
+
+// Require authentication (throws error if not authenticated)
+const user = useRequireAuth();
+
+// Handle authentication redirects
+const { shouldRedirect, redirectTo } = useAuthRedirect(true);
+```
+
+**Features:**
+- Unified interface for Clerk authentication state
+- User profile data extraction and formatting
+- Loading and error state management
+- Session persistence across app restarts
+- Mobile-optimized authentication flows
+- Integration with Convex backend (planned)
+
+### Authentication Flow
+1. **Unauthenticated users** are redirected to `/auth/sign-in`
+2. **Sign-in page** handles authentication with Clerk
+3. **After authentication**, users are redirected to their intended destination
+4. **Protected routes** automatically check authentication status
+5. **Session management** handles token refresh and logout
+
+### Clerk Configuration
+**Location**: `src/lib/auth/clerk.ts`
+
+Centralized Clerk configuration with FoodyLog custom theming:
+
+```typescript
+import { clerkConfig } from '~/lib/auth/clerk';
+
+// Custom appearance matching FoodyLog design system
+// Environment-based configuration
+// Mobile-optimized authentication flows
+```
+
+**Features:**
+- Custom appearance matching FoodyLog design system
+- Environment variable validation
+- Mobile-optimized UI components
+- Integration with shadcn/ui theme system
+- Development mode detection and warnings
+
 ## 📚 Utility Functions
 
 ### Core Utils

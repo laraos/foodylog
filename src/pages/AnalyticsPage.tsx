@@ -21,7 +21,7 @@ export function AnalyticsPage() {
         <div className="text-6xl mb-4">📊</div>
         <h2 className="text-xl font-semibold mb-2">Analytics Coming Soon</h2>
         <p className="text-muted-foreground">
-          This feature will be available in Sprint 3. You'll see statistics about your meals, spending trends, and eating patterns.
+          This feature will be available in Sprint 3. You&apos;ll see statistics about your meals, spending trends, and eating patterns.
         </p>
       </div>
     </div>

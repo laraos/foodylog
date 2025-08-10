@@ -21,7 +21,7 @@ export function AddMealPage() {
         <div className="text-6xl mb-4">📸</div>
         <h2 className="text-xl font-semibold mb-2">Meal Logging Coming Soon</h2>
         <p className="text-muted-foreground">
-          This feature will be available in Sprint 2. You'll be able to take photos, rate your meals, and add details like location and price.
+          This feature will be available in Sprint 2. You&apos;ll be able to take photos, rate your meals, and add details like location and price.
         </p>
       </div>
     </div>

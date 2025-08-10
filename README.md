@@ -121,6 +121,10 @@ src/
 - ✅ shadcn/ui design system with custom FoodyLog theme
 - ✅ Bottom navigation component for mobile-first UX
 - ✅ Tailwind CSS integration with warm cream/brown/green palette
+- ✅ Clerk authentication integration with custom UI
+- ✅ Protected routes and session management
+- ✅ Sign-in/Sign-up pages with FoodyLog branding
+- ✅ Development setup helper for unconfigured environments
 
 ### Planned Features
 
@@ -129,7 +133,7 @@ src/
 - 🔍 Search and filtering
 - 📊 Basic analytics
 - 🔄 Offline sync with Convex
-- 🔐 Authentication with Clerk
+- 👤 User profile management and preferences
 
 ## 🧪 Testing
 
@@ -180,16 +184,19 @@ FoodyLog uses a custom design system built on shadcn/ui with a warm, food-focuse
 
 ### Environment Variables
 
-Copy `.env.example` to `.env` and configure:
+Copy `.env.example` to `.env.local` and configure:
 
 ```bash
 # App Configuration
 VITE_APP_VERSION=1.0.0
 VITE_ENVIRONMENT=development
 
-# Backend Services (when ready)
-VITE_CONVEX_URL=your_convex_url
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
+# Convex Backend
+VITE_CONVEX_URL=https://your-deployment.convex.cloud
+
+# Clerk Authentication (Required)
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_actual_key_here
+CLERK_SECRET_KEY=sk_test_your_actual_secret_key_here
 
 # Optional Services
 VITE_GOOGLE_PLACES_API_KEY=your_places_key
@@ -199,6 +206,17 @@ VITE_SENTRY_DSN=your_sentry_dsn
 # Replace with your PC IP address for mobile testing
 CAP_SERVER_URL=http://192.168.1.123:5173
 ```
+
+### Authentication Setup
+
+FoodyLog uses [Clerk](https://clerk.com) for authentication. To set up:
+
+1. **Create Clerk Account**: Go to [dashboard.clerk.com](https://dashboard.clerk.com) and create a new application
+2. **Get API Keys**: Copy your Publishable Key and Secret Key from the Clerk dashboard
+3. **Update Environment**: Add your keys to `.env.local` (see above)
+4. **Restart Server**: Run `bun run dev` again
+
+If Clerk is not configured, the app will show setup instructions automatically.
 
 ### PWA Configuration
 
@@ -296,12 +314,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎯 Roadmap
 
-### Phase 1: MVP Foundation (Current)
+### Phase 1: MVP Foundation (Nearly Complete)
 - [x] Project setup and PWA configuration
 - [x] Capacitor 7 mobile platform configuration
 - [x] Android emulator deployment
 - [x] iOS platform setup (requires macOS for testing)
-- [ ] Authentication system
+- [x] Authentication system with Clerk
+- [x] Protected routes and session management
+- [x] Sign-in/Sign-up UI with custom branding
+- [ ] User profile management
 - [ ] Basic meal logging
 - [ ] Photo capture
 - [ ] Offline support

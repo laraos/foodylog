@@ -21,7 +21,7 @@ export function SearchPage() {
         <div className="text-6xl mb-4">🔍</div>
         <h2 className="text-xl font-semibold mb-2">Search Coming Soon</h2>
         <p className="text-muted-foreground">
-          This feature will be available in Sprint 3. You'll be able to search your meals by title, location, tags, and more.
+          This feature will be available in Sprint 3. You&apos;ll be able to search your meals by title, location, tags, and more.
         </p>
       </div>
     </div>

@@ -16,6 +16,8 @@
 import { User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useTheme } from '../../lib/theme';
+import { UserButton } from '../auth/UserButton';
+import { useAuth } from '../../hooks/useAuth';
 
 /**
  * Header component with branding and user menu
@@ -26,9 +28,10 @@ import { useTheme } from '../../lib/theme';
  */
 export function Header() {
   const { theme, setTheme } = useTheme();
+  const { isAuthenticated } = useAuth();
 
-  // Placeholder user button - will be replaced with Clerk UserButton
-  const UserButton = () => (
+  // Fallback user button for when not authenticated
+  const FallbackUserButton = () => (
     <Button
       variant="ghost"
       size="icon"
@@ -75,8 +78,8 @@ export function Header() {
             {theme === 'light' ? '🌙' : '☀️'}
           </Button>
 
-          {/* User menu button - placeholder for Clerk UserButton */}
-          <UserButton />
+          {/* User menu button - Clerk UserButton when authenticated */}
+          {isAuthenticated ? <UserButton /> : <FallbackUserButton />}
         </div>
       </div>
     </header>
