@@ -14,7 +14,7 @@
  */
 
 import { useUser, useAuth as useClerkAuth } from '@clerk/clerk-react';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 
 /**
  * Authentication state interface
@@ -70,18 +70,29 @@ export interface AuthState {
 export const useAuth = (): AuthState => {
   // Clerk authentication state
   const { user: clerkUser, isLoaded: isClerkLoaded } = useUser();
-  const { signOut: clerkSignOut } = useClerkAuth();
+  const { signOut: clerkSignOut, isSignedIn } = useClerkAuth();
   
   // For now, we'll use a simpler approach without Convex auth integration
-  // This will be enhanced in future sprints
+  // This will be enhanced in future sprints when we add Convex backend integration
+  
+  // Sign out function - memoized to prevent unnecessary re-renders
+  const signOut = useCallback(async () => {
+    try {
+      await clerkSignOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+      throw error;
+    }
+  }, [clerkSignOut]);
   
   // Compute authentication state
   const authState = useMemo(() => {
     // Loading state: Clerk is still loading
     const isLoading = !isClerkLoaded;
     
-    // Authenticated: user exists in Clerk
-    const isAuthenticated = !!clerkUser;
+    // Authenticated: use Clerk's isSignedIn, ensuring it's a boolean
+    // During loading, isSignedIn can be undefined, so we default to false
+    const isAuthenticated = Boolean(isSignedIn);
     
     // Extract user profile data from Clerk
     const user = clerkUser ? {
@@ -90,18 +101,10 @@ export const useAuth = (): AuthState => {
       firstName: clerkUser.firstName || '',
       lastName: clerkUser.lastName || '',
       profileImageUrl: clerkUser.imageUrl || '',
-      fullName: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'User',
+      fullName: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 
+                clerkUser.primaryEmailAddress?.emailAddress?.split('@')[0] || 
+                'User',
     } : null;
-    
-    // Sign out function
-    const signOut = async () => {
-      try {
-        await clerkSignOut();
-      } catch (error) {
-        console.error('Error signing out:', error);
-        throw error;
-      }
-    };
     
     return {
       isAuthenticated,
@@ -111,7 +114,7 @@ export const useAuth = (): AuthState => {
       signOut,
       error: null,
     };
-  }, [clerkUser, isClerkLoaded, clerkSignOut]);
+  }, [clerkUser, isClerkLoaded, isSignedIn, signOut]);
   
   return authState;
 };
@@ -164,6 +167,32 @@ export const useAuthRedirect = (requireAuth: boolean = true) => {
     redirectTo: requireAuth ? '/auth/sign-in' : '/meals',
     isLoading,
   };
+};
+
+/**
+ * useUserProfile Hook
+ * 
+ * Hook that returns just the user profile data, or null if not authenticated.
+ * Useful for components that only need user data without auth state.
+ * 
+ * @returns User profile data or null
+ */
+export const useUserProfile = () => {
+  const { user } = useAuth();
+  return user;
+};
+
+/**
+ * useIsAuthenticated Hook
+ * 
+ * Simple hook that returns just the authentication status.
+ * Useful for conditional rendering without needing the full auth state.
+ * 
+ * @returns Boolean indicating if user is authenticated
+ */
+export const useIsAuthenticated = () => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated;
 };
 
 export default useAuth;

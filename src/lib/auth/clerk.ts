@@ -219,12 +219,52 @@ export const clerkEnvironmentConfig = {
     // Development-specific settings
     debug: true,
     allowedOrigins: ['http://localhost:5173', 'http://10.0.2.2:5173'],
+    // Additional development settings for mobile testing
+    skipBotProtection: true, // Note: This is conceptual - actual setting depends on Clerk dashboard
   },
   production: {
     // Production-specific settings
     debug: false,
     allowedOrigins: [], // Will be configured based on deployment
+    skipBotProtection: false,
   },
 } as const;
+
+/**
+ * Development Helper: Detect if running in Chrome DevTools device emulation
+ * 
+ * This can help identify when the Cloudflare issue might occur.
+ */
+export const isDeviceEmulation = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  // Check for common device emulation indicators
+  const userAgent = navigator.userAgent;
+  const isEmulated = 
+    // Chrome DevTools device toolbar changes user agent
+    userAgent.includes('Mobile') && window.screen.width > 1024 ||
+    // Check for DevTools-specific properties
+    (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__ && 
+    window.innerWidth < 500 && 
+    window.screen.width > 1024;
+    
+  return isEmulated;
+};
+
+/**
+ * Development Helper: Show warning for device emulation during auth
+ */
+export const showDeviceEmulationWarning = (): void => {
+  if (process.env.NODE_ENV === 'development' && isDeviceEmulation()) {
+    console.warn(
+      '⚠️  Device emulation detected during authentication.\n' +
+      'If you encounter Cloudflare verification loops:\n' +
+      '1. Disable Chrome DevTools device toolbar\n' +
+      '2. Complete authentication in desktop mode\n' +
+      '3. Re-enable device toolbar for UI testing\n' +
+      '4. Or use real mobile devices with Capacitor live reload'
+    );
+  }
+};
 
 export default clerkConfig;

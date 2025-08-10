@@ -13,6 +13,14 @@ This document provides detailed breakdowns for each sprint in the FoodyLog devel
 - **Sprint Capacity**: 50 story points per 2-week sprint (solo developer)
 - **Buffer**: 30% buffer for meetings, context switching, and interruptions
 
+### Key Architecture Decisions
+
+**Authentication: Clerk Pre-built Components**
+- Decision: Use Clerk's pre-built SignIn/SignUp components instead of custom forms
+- Rationale: Faster development, better security, built-in accessibility, less maintenance
+- Impact: Reduced authentication epic from 25 to 13 story points
+- Trade-off: Less UI customization for faster, more reliable implementation
+
 ## 🚀 Phase 1: MVP Foundation (Months 1-3)
 
 ### Sprint 1: Project Foundation & Authentication
@@ -27,8 +35,11 @@ Scope for solo developer (50 SP):
   - 1.1.3 Setup Convex Backend (5)
   - 1.1.4 CI/CD Pipeline Setup (4)
   - 1.2.1 Setup shadcn/ui with Custom Theme (8)
+  - 1.2.2 Core UI Components (8)
   - 1.3.1 Clerk Auth Setup (8)
-- Deferred to Sprint 2+: 1.2.3 Layout and Navigation, 1.2.2 Core UI Components, 1.3.2 Login/Register UI, 1.3.3 User Profile Management, 1.3.4 Protected Routes & Session Management, 1.4.1 Unit Testing Setup, 1.4.2 Accessibility Audit
+  - 1.3.2 Login/Register UI (3) - SIMPLIFIED with Clerk pre-built
+- Deferred to Sprint 2+: 1.2.3 Layout and Navigation, 1.4.1 Unit Testing Setup, 1.4.2 Accessibility Audit
+- Not needed: 1.3.3 User Profile Management, 1.3.4 Protected Routes & Session Management (Clerk handles these)
 
 #### Epic 1.1: Project Setup & Infrastructure (25 points)
 
@@ -212,7 +223,16 @@ Assignee: Full-Stack Developer
 
 ```
 
-#### Epic 1.3: Authentication System (25 points)
+#### Epic 1.3: Authentication System (13 points) - SIMPLIFIED with Clerk
+
+**Architecture Decision: Using Clerk Pre-built Components**
+We've decided to use Clerk's pre-built SignIn/SignUp components instead of custom forms. This provides:
+- Faster development (reduced from 25 to 13 story points)
+- Better security and reliability (Clerk handles all edge cases)
+- Built-in accessibility compliance
+- Automatic password reset, email verification, and session management
+- Less maintenance overhead
+- Focus development time on FoodyLog's core features
 
 **Story 1.3.1: Clerk Auth Setup** (8 points)
 ```
@@ -242,7 +262,7 @@ Assignee: Full-Stack Developer
 
 ```
 
-**Story 1.3.2: Login/Register UI** (8 points)
+**Story 1.3.2: Login/Register UI** (3 points) - SIMPLIFIED
 ```
 
 As a user, I want to create an account and login
@@ -250,26 +270,29 @@ so that I can access the app features.
 
 Tasks:
 
-- Create login form with React Hook Form
-- Build registration form with validation
-- Implement password reset flow
-- Add form error handling
-- Create welcome/onboarding flow
+- Customize Clerk's pre-built SignIn/SignUp components with FoodyLog branding
+- Configure appearance to match design system
+- Add FoodyLog branding and messaging around auth components
+- Test authentication flows on mobile and web
+- Ensure proper routing after authentication
 
 Acceptance Criteria:
 
-- ✅ Login form validates input correctly
-- ✅ Registration creates new user account
-- ✅ Password reset sends email (if configured)
+- ✅ Clerk SignIn/SignUp components match FoodyLog design
+- ✅ Authentication works correctly on all platforms
+- ✅ Proper redirects after sign-in/sign-up
 - ✅ Error messages are clear and helpful
-- ✅ Forms are accessible and mobile-friendly
+- ✅ Components are accessible and mobile-friendly
 
-Dependencies: Stories 1.2.2, 1.3.1
+Dependencies: Stories 1.2.1, 1.3.1
 Assignee: Full-Stack Developer
+
+Note: Using Clerk's pre-built components eliminates the need for custom form validation,
+password reset implementation, and complex error handling - all handled by Clerk.
 
 ```
 
-**Story 1.3.3: User Profile Management** (5 points)
+**Story 1.3.3: User Profile Management** (3 points) - SIMPLIFIED
 ```
 
 As a user, I want to manage my profile information
@@ -277,26 +300,29 @@ so that I can personalize my experience.
 
 Tasks:
 
-- Create user profile page
-- Implement profile editing form
-- Add avatar upload functionality
-- Setup user preferences
-- Implement account deletion
+- Integrate Clerk's UserProfile component for profile management
+- Add FoodyLog-specific user preferences (meal logging preferences, etc.)
+- Create user settings page with app-specific options
+- Sync Clerk user data with Convex user records
+- Handle account deletion through Clerk
 
 Acceptance Criteria:
 
-- ✅ Users can view their profile information
-- ✅ Profile editing saves changes correctly
-- ✅ Avatar upload works with Convex storage
-- ✅ Preferences are saved and applied
-- ✅ Account deletion removes all user data
+- ✅ Users can view and edit profile via Clerk UserProfile
+- ✅ FoodyLog-specific preferences are saved to Convex
+- ✅ User data syncs properly between Clerk and Convex
+- ✅ Settings page provides app-specific options
+- ✅ Account deletion works through Clerk's built-in flow
 
 Dependencies: Stories 1.3.1, 1.3.2
 Assignee: Full-Stack Developer
 
+Note: Clerk handles profile editing, avatar upload, and account management.
+Only need to add FoodyLog-specific preferences and sync user data.
+
 ```
 
-**Story 1.3.4: Protected Routes & Session Management** (4 points)
+**Story 1.3.4: Protected Routes & Session Management** (2 points) - SIMPLIFIED
 ```
 
 As a developer, I want proper route protection
@@ -304,22 +330,25 @@ so that unauthorized users cannot access protected content.
 
 Tasks:
 
-- Implement route guards with react-router-dom
-- Create authentication context
-- Handle session expiration
-- Implement automatic logout
-- Add loading states for auth checks
+- Use Clerk's built-in route protection with SignedIn/SignedOut components
+- Configure redirect URLs in Clerk dashboard
+- Add loading states using Clerk's useAuth hook
+- Test deep linking and session persistence
+- Ensure proper routing after authentication
 
 Acceptance Criteria:
 
-- ✅ Unauthenticated users redirected to login
+- ✅ Unauthenticated users redirected to Clerk SignIn
 - ✅ Authenticated users can access protected routes
-- ✅ Session expiration handled gracefully
+- ✅ Session persistence works across app restarts
 - ✅ Loading states show during auth checks
 - ✅ Deep linking works after authentication
 
 Dependencies: Story 1.3.1
 Assignee: Full-Stack Developer
+
+Note: Clerk handles session management, expiration, and automatic logout.
+Only need to configure routing and use Clerk's built-in components.
 
 ```
 
@@ -384,9 +413,10 @@ Assignee: Full-Stack Developer + QA Engineer
 - [ ] Code reviewed and merged to main
 - [ ] CI/CD pipeline passes all checks
 - [ ] App runs on iOS and Android simulators
-- [ ] Authentication flow works end-to-end
+- [ ] Clerk authentication flow works end-to-end (sign-in, sign-up, sign-out)
 - [ ] Design system components documented
-- [ ] Accessibility audit completed
+- [ ] Core UI components implemented and tested
+- [ ] Clerk components styled to match FoodyLog branding
 - [ ] Sprint demo prepared
 
 ---
@@ -394,15 +424,18 @@ Assignee: Full-Stack Developer + QA Engineer
 ### Sprint 2: Core Meal Logging
 **Duration:** Weeks 3-4 | **Capacity:** 50 points | **Goal:** Users can log meals with photos
 
+**Focus:** Pure meal logging functionality - authentication is complete with Clerk pre-built components.
+
 Scope for solo developer (50 SP):
 - Included:
   - 2.1.1 Capacitor Camera Integration (8)
   - 2.1.2 Photo Upload to Convex (8)
+  - 2.1.3 Gallery Selection (5)
+  - 2.1.4 Photo Component (4)
   - 2.2.1 Convex Schema Design (8)
   - 2.2.2 Add Meal Form (13)
   - 2.2.3 Meal Creation API (5)
-  - 2.2.4 Form Integration (4)
-- Deferred to Sprint 3+: 2.1.4 Photo Component, 2.1.3 Gallery Selection, 2.3.1 Meal Card, 2.3.2 Meal List with Pagination, 2.3.3 Meal Detail, 2.4.1/2 Testing & Mobile Polish
+- Deferred to Sprint 3+: 2.2.4 Form Integration, 2.3.1 Meal Card, 2.3.2 Meal List with Pagination, 2.3.3 Meal Detail, 2.4.1/2 Testing & Mobile Polish
 
 #### Epic 2.1: Photo Capture System (25 points)
 

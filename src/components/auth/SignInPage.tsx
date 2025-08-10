@@ -12,10 +12,12 @@
  * - Integration with our routing system
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SignIn } from '@clerk/clerk-react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { showDeviceEmulationWarning } from '../../lib/auth/clerk';
+import { DeviceEmulationWarning } from './DeviceEmulationWarning';
 
 /**
  * SignInPage Component
@@ -29,6 +31,11 @@ export const SignInPage: React.FC = () => {
   
   // Get the intended destination from location state, default to meals page
   const from = (location.state as any)?.from?.pathname || '/meals';
+  
+  // Show warning if device emulation is detected
+  useEffect(() => {
+    showDeviceEmulationWarning();
+  }, []);
   
   // Show loading state while authentication is being determined
   if (isLoading) {
@@ -48,8 +55,10 @@ export const SignInPage: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
-      {/* FoodyLog Branding */}
+    <>
+      <DeviceEmulationWarning />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
+        {/* FoodyLog Branding */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-foreground mb-2">
           FoodyLog
@@ -62,20 +71,13 @@ export const SignInPage: React.FC = () => {
       {/* Clerk SignIn Component */}
       <div className="w-full max-w-md">
         <SignIn
-          //// Redirect to the intended page after sign-in
-          //redirectUrl={from}
-          
-          // Routing configuration
+          // Routing configuration - let Clerk handle its own routing
           routing="path"
           path="/auth/sign-in"
           
           // Sign-up page link
           signUpUrl="/auth/sign-up"
           
-          //// Handle all sign-in related routes
-          //afterSignInUrl={from}
-          //afterSignUpUrl={from}
-
           // Fallback redirect URLs (replaces deprecated redirectUrl, afterSignInUrl, afterSignUpUrl)
           fallbackRedirectUrl={from}
           signUpFallbackRedirectUrl={from}
@@ -110,7 +112,8 @@ export const SignInPage: React.FC = () => {
           </a>
         </p>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
