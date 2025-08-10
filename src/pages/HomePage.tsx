@@ -8,9 +8,12 @@
  * Features:
  * - Welcome message for new users
  * - App version and status information
+ * - Convex backend connection test (temporary for Sprint 1)
  * - Mobile-friendly responsive design
  * - Accessibility compliant structure
  */
+
+import { ConvexTest } from '../components/ConvexTest';
 
 export function HomePage() {
   return (
@@ -58,6 +61,9 @@ export function HomePage() {
           </div>
         </div>
       </div>
+      
+      {/* Convex Backend Connection Test - Remove after Sprint 1 */}
+      <ConvexTest />
       
       <div className="home-page__status">
         <div className="home-page__status-item">

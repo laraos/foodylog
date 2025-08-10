@@ -41,6 +41,14 @@ bun run dev          # Start dev server with hot reload
 bun run build        # Build for production
 bun run preview      # Preview production build
 
+# Mobile Development (Capacitor 7)
+bun run cap:sync     # Sync web assets to native platforms
+bun run cap:build    # Build and sync in one command
+bun run cap:android  # Run on Android emulator/device
+bun run cap:ios      # Run on iOS simulator/device
+bun run cap:android:dev # Run on Android with live reload
+bun run cap:ios:dev  # Run on iOS with live reload
+
 # Code Quality
 bun run lint         # Run ESLint
 bun run lint:fix     # Fix ESLint issues
@@ -69,11 +77,32 @@ src/
 ## 🏗️ Architecture
 
 - **Frontend**: React 18 + TypeScript + Vite
+- **Mobile**: Capacitor 7 for iOS/Android native builds
 - **Routing**: React Router DOM (SPA)
 - **PWA**: Vite PWA Plugin with Workbox
 - **Styling**: CSS Custom Properties + Mobile-first
 - **Testing**: Vitest + React Testing Library
 - **Package Manager**: Bun
+
+## � Moabile Development Status
+
+### ✅ Completed (Story 1.1.2)
+- **Capacitor 7 Configuration**: Full setup with iOS and Android platforms
+- **Android Deployment**: Successfully tested on Android emulator
+- **Live Reload**: Configured for development workflow
+- **Build Pipeline**: Automated sync and deployment scripts
+
+### 🔧 Current Setup
+- **App ID**: `com.foodylog.mobile`
+- **Platforms**: iOS and Android native projects generated
+- **Development**: Live reload with `CAP_SERVER_URL` environment variable
+- **Deployment**: Working Android emulator deployment
+
+### 📋 Next Steps
+- Convex backend integration
+- Clerk authentication setup
+- Camera plugin for photo capture
+- Offline data synchronization
 
 ## 📋 Features
 
@@ -85,6 +114,9 @@ src/
 - ✅ Error boundaries and loading states
 - ✅ Service worker with auto-updates
 - ✅ Basic routing and navigation
+- ✅ Capacitor 7 mobile platform configuration
+- ✅ Android emulator deployment working
+- ✅ iOS platform ready (requires macOS for testing)
 
 ### Planned Features
 
@@ -124,10 +156,21 @@ bun run test:coverage
 Copy `.env.example` to `.env` and configure:
 
 ```bash
+# App Configuration
 VITE_APP_VERSION=1.0.0
 VITE_ENVIRONMENT=development
+
+# Backend Services (when ready)
 VITE_CONVEX_URL=your_convex_url
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
+
+# Optional Services
+VITE_GOOGLE_PLACES_API_KEY=your_places_key
+VITE_SENTRY_DSN=your_sentry_dsn
+
+# Mobile Development (Capacitor live reload)
+# Replace with your PC IP address for mobile testing
+CAP_SERVER_URL=http://192.168.1.123:5173
 ```
 
 ### PWA Configuration
@@ -151,22 +194,65 @@ bun run build
 bun run preview
 ```
 
-### Mobile Deployment (Future)
+### Mobile Deployment
 
-The app is prepared for mobile deployment using Capacitor:
+The app is configured for mobile deployment using Capacitor 7:
+
+#### Prerequisites for Mobile Development
+
+- **Android**: Android Studio with SDK and emulator
+- **iOS**: macOS with Xcode (for iOS development)
+
+#### Setup Mobile Platforms
+
+Mobile platforms are already configured. To deploy:
 
 ```bash
-# Add mobile platforms (when ready)
-bunx cap add ios
-bunx cap add android
-
-# Build and sync
+# Build web assets
 bun run build
-bunx cap sync
 
-# Run on device
-bunx cap run ios
-bunx cap run android
+# Sync to mobile platforms
+bun run cap:sync
+
+# Run on Android (requires Android Studio & emulator)
+bun run cap:android
+
+# Run on iOS (requires macOS & Xcode)
+bun run cap:ios
+```
+
+#### Live Reload Development
+
+For faster development with live reload:
+
+```bash
+# Terminal 1: Start dev server
+bun run dev
+
+# Terminal 2: Set environment variable and run
+# For Android Emulator:
+CAP_SERVER_URL=http://10.0.2.2:5173 bun run cap:android:dev
+
+# For physical device (replace with your PC IP):
+CAP_SERVER_URL=http://192.168.1.123:5173 bun run cap:android:dev
+```
+
+#### Troubleshooting Mobile Deployment
+
+If you encounter ADB authorization issues:
+
+```bash
+# Check connected devices
+adb devices
+
+# Restart ADB if needed
+adb kill-server && adb start-server
+
+# Manual app launch (if automatic launch fails)
+adb shell am start -n com.foodylog.mobile/com.foodylog.mobile.MainActivity
+
+# Open project in Android Studio for debugging
+bunx cap open android
 ```
 
 ## 🤝 Contributing
@@ -185,6 +271,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Phase 1: MVP Foundation (Current)
 - [x] Project setup and PWA configuration
+- [x] Capacitor 7 mobile platform configuration
+- [x] Android emulator deployment
+- [x] iOS platform setup (requires macOS for testing)
 - [ ] Authentication system
 - [ ] Basic meal logging
 - [ ] Photo capture

@@ -1,0 +1,27 @@
+{
+  "enabled": true,
+  "name": "TypeScript & Lint Fixer",
+  "description": "Automatically runs TypeScript type checking and fixes ESLint errors when TypeScript, JavaScript, or configuration files are modified",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "src/**/*.{ts",
+      "tsx",
+      "js",
+      "jsx}",
+      "convex/**/*.ts",
+      "*.{ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json}",
+      "tsconfig*.json",
+      ".eslintrc.*"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run TypeScript type checking with `bunx tsc --noEmit` to check for type errors, then run ESLint with `bunx eslint --fix` to automatically fix linting issues. If there are any remaining type errors or lint errors that couldn't be auto-fixed, provide a summary of the issues and suggest fixes. Focus on the files that were recently changed."
+  }
+}

@@ -1,21 +1,87 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: { 
+    browser: true, 
+    es2020: true,
+    node: true 
+  },
   extends: [
     'eslint:recommended',
+    '@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: [
+    'dist',
+    'build',
+    'coverage',
+    'android',
+    'ios',
+    'convex/_generated',
+    '.eslintrc.cjs'
+  ],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@typescript-eslint'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  plugins: [
+    'react-refresh', 
+    '@typescript-eslint',
+    'react'
+  ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
+    // React specific rules
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'react/prop-types': 'off', // Using TypeScript for prop validation
+    'react/react-in-jsx-scope': 'off', // Not needed with React 17+
+    'react/jsx-uses-react': 'off', // Not needed with React 17+
+    
+    // TypeScript specific rules
+    '@typescript-eslint/no-unused-vars': [
+      'error', 
+      { 
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true 
+      }
+    ],
     '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'warn',
+    
+    // General JavaScript/TypeScript rules
     'prefer-const': 'error',
     'no-var': 'error',
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-debugger': 'error',
+    'no-alert': 'error',
+    'eqeqeq': ['error', 'always'],
+    'curly': ['error', 'all'],
+    
+    // Code style rules (handled by Prettier, but good to have as backup)
+    'semi': ['error', 'always'],
+    'quotes': ['error', 'single', { avoidEscape: true }],
+    'comma-dangle': ['error', 'es5'],
+    
+    // Import/Export rules
+    'no-duplicate-imports': 'error',
+    'sort-imports': ['error', { 
+      ignoreCase: true, 
+      ignoreDeclarationSort: true 
+    }],
   },
 }

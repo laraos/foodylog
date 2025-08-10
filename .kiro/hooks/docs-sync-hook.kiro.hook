@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Monitors TypeScript source files, React components, Convex functions, and configuration files for changes and triggers documentation updates in README.md and project documentation files",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "convex/**/*.ts",
+      "capacitor.config.ts",
+      "vite.config.ts",
+      "tsconfig.json",
+      "package.json",
+      "*.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source files have been modified in this TypeScript/React/Convex project. Please review the changes and update the documentation accordingly. Focus on:\n\n1. Update README.md with any new features, setup instructions, or usage examples\n2. If there's a /docs folder, update relevant documentation there\n3. Ensure API documentation reflects any new functions or components\n4. Update technical architecture documentation if structural changes were made\n5. Keep documentation in sync with the current codebase state\n\nConsider the project structure and ensure documentation accurately reflects the current implementation."
+  }
+}
