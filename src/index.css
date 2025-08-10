@@ -12,63 +12,112 @@
 @layer base {
   :root {
     /* FoodyLog Custom Theme - Light Mode */
-    --background: 30 43% 90%; /* #f0e5d9 - Warm cream background */
-    --foreground: 30 12% 16%; /* #2f2a25 - Dark brown text */
-    --card: 30 43% 90%; /* #f0e5d9 - Same as background for cards */
-    --card-foreground: 30 12% 16%; /* #2f2a25 - Dark brown text on cards */
-    --popover: 30 43% 90%; /* #f0e5d9 - Popover background */
-    --popover-foreground: 30 12% 16%; /* #2f2a25 - Popover text */
-    --primary: 139 29% 42%; /* #5da271 - Green accent for primary actions */
-    --primary-foreground: 0 0% 100%; /* #ffffff - White text on green */
-    --secondary: 30 33% 80%; /* #d4c2b2 - Subtle brown for secondary elements */
-    --secondary-foreground: 30 12% 16%; /* #2f2a25 - Dark text on secondary */
-    --muted: 30 40% 87%; /* #e3d5c5 - Muted background for hover states */
-    --muted-foreground: 30 12% 16%; /* #2f2a25 - Text on muted backgrounds */
-    --accent: 139 29% 42%; /* #5da271 - Same as primary for consistency */
-    --accent-foreground: 0 0% 100%; /* #ffffff - White text on accent */
-    --destructive: 0 84% 60%; /* #ef4444 - Red for destructive actions */
-    --destructive-foreground: 0 0% 100%; /* #ffffff - White text on red */
-    --border: 30 33% 80%; /* #d4c2b2 - Subtle borders */
-    --input: 30 40% 87%; /* #e3d5c5 - Input background */
-    --ring: 139 29% 42%; /* #5da271 - Focus ring color */
-    --radius: 0.5rem; /* 8px border radius */
+    --background: 30 43% 90%;
+    /* #f0e5d9 - Warm cream background */
+    --foreground: 30 12% 16%;
+    /* #2f2a25 - Dark brown text */
+    --card: 30 43% 90%;
+    /* #f0e5d9 - Same as background for cards */
+    --card-foreground: 30 12% 16%;
+    /* #2f2a25 - Dark brown text on cards */
+    --popover: 30 43% 90%;
+    /* #f0e5d9 - Popover background */
+    --popover-foreground: 30 12% 16%;
+    /* #2f2a25 - Popover text */
+    --primary: 139 29% 42%;
+    /* #5da271 - Green accent for primary actions */
+    --primary-foreground: 0 0% 100%;
+    /* #ffffff - White text on green */
+    --secondary: 30 33% 80%;
+    /* #d4c2b2 - Subtle brown for secondary elements */
+    --secondary-foreground: 30 12% 16%;
+    /* #2f2a25 - Dark text on secondary */
+    --muted: 30 40% 87%;
+    /* #e3d5c5 - Muted background for hover states */
+    --muted-foreground: 30 12% 16%;
+    /* #2f2a25 - Text on muted backgrounds */
+    --accent: 139 29% 42%;
+    /* #5da271 - Same as primary for consistency */
+    --accent-foreground: 0 0% 100%;
+    /* #ffffff - White text on accent */
+    --destructive: 0 84% 60%;
+    /* #ef4444 - Red for destructive actions */
+    --destructive-foreground: 0 0% 100%;
+    /* #ffffff - White text on red */
+    --border: 30 33% 80%;
+    /* #d4c2b2 - Subtle borders */
+    --input: 30 40% 87%;
+    /* #e3d5c5 - Input background */
+    --ring: 139 29% 42%;
+    /* #5da271 - Focus ring color */
+    --radius: 0.5rem;
+    /* 8px border radius */
 
     /* FoodyLog Rating Colors */
-    --rating-excellent: 139 35% 45%; /* Darker green for excellent ratings */
-    --rating-great: 139 29% 42%; /* Primary green for great ratings */
-    --rating-good: 45 93% 47%; /* Yellow for good ratings */
-    --rating-poor: 25 95% 53%; /* Orange for poor ratings */
-    --rating-bad: 0 84% 60%; /* Red for bad ratings */
+    --rating-excellent: 139 35% 45%;
+    /* Darker green for excellent ratings */
+    --rating-great: 139 29% 42%;
+    /* Primary green for great ratings */
+    --rating-good: 45 93% 47%;
+    /* Yellow for good ratings */
+    --rating-poor: 25 95% 53%;
+    /* Orange for poor ratings */
+    --rating-bad: 0 84% 60%;
+    /* Red for bad ratings */
   }
 
   .dark {
     /* FoodyLog Custom Theme - Dark Mode */
-    --background: 24 7% 12%; /* #1e1b1a - Dark brown background */
-    --foreground: 30 43% 90%; /* #f0e5d9 - Cream text */
-    --card: 24 7% 12%; /* #1e1b1a - Same as background for cards */
-    --card-foreground: 30 43% 90%; /* #f0e5d9 - Cream text on cards */
-    --popover: 24 7% 12%; /* #1e1b1a - Popover background */
-    --popover-foreground: 30 43% 90%; /* #f0e5d9 - Popover text */
-    --primary: 139 29% 35%; /* #4b845e - Darker green for dark mode */
-    --primary-foreground: 30 12% 16%; /* #2f2a25 - Dark text on green (better contrast) */
-    --secondary: 34 12% 22%; /* #453f3b - Darker secondary */
-    --secondary-foreground: 30 43% 90%; /* #f0e5d9 - Cream text on secondary */
-    --muted: 28 9% 16%; /* #2a2522 - Muted background */
-    --muted-foreground: 30 43% 90%; /* #f0e5d9 - Cream text on muted */
-    --accent: 139 29% 35%; /* #4b845e - Same as primary */
-    --accent-foreground: 30 12% 16%; /* #2f2a25 - Dark text on accent */
-    --destructive: 0 84% 60%; /* #ef4444 - Same red for destructive */
-    --destructive-foreground: 0 0% 100%; /* #ffffff - White text on red */
-    --border: 34 12% 22%; /* #453f3b - Darker borders */
-    --input: 28 9% 16%; /* #2a2522 - Darker input background */
-    --ring: 139 29% 35%; /* #4b845e - Focus ring color */
+    --background: 24 7% 12%;
+    /* #1e1b1a - Dark brown background */
+    --foreground: 30 43% 90%;
+    /* #f0e5d9 - Cream text */
+    --card: 24 7% 12%;
+    /* #1e1b1a - Same as background for cards */
+    --card-foreground: 30 43% 90%;
+    /* #f0e5d9 - Cream text on cards */
+    --popover: 24 7% 12%;
+    /* #1e1b1a - Popover background */
+    --popover-foreground: 30 43% 90%;
+    /* #f0e5d9 - Popover text */
+    --primary: 139 29% 35%;
+    /* #4b845e - Darker green for dark mode */
+    --primary-foreground: 30 12% 16%;
+    /* #2f2a25 - Dark text on green (better contrast) */
+    --secondary: 34 12% 22%;
+    /* #453f3b - Darker secondary */
+    --secondary-foreground: 30 43% 90%;
+    /* #f0e5d9 - Cream text on secondary */
+    --muted: 28 9% 16%;
+    /* #2a2522 - Muted background */
+    --muted-foreground: 30 43% 90%;
+    /* #f0e5d9 - Cream text on muted */
+    --accent: 139 29% 35%;
+    /* #4b845e - Same as primary */
+    --accent-foreground: 30 12% 16%;
+    /* #2f2a25 - Dark text on accent */
+    --destructive: 0 84% 60%;
+    /* #ef4444 - Same red for destructive */
+    --destructive-foreground: 0 0% 100%;
+    /* #ffffff - White text on red */
+    --border: 34 12% 22%;
+    /* #453f3b - Darker borders */
+    --input: 28 9% 16%;
+    /* #2a2522 - Darker input background */
+    --ring: 139 29% 35%;
+    /* #4b845e - Focus ring color */
 
     /* FoodyLog Rating Colors - Dark Mode Adjusted */
-    --rating-excellent: 139 35% 50%; /* Brighter green for dark mode */
-    --rating-great: 139 29% 45%; /* Adjusted green */
-    --rating-good: 45 93% 55%; /* Brighter yellow */
-    --rating-poor: 25 95% 60%; /* Brighter orange */
-    --rating-bad: 0 84% 65%; /* Brighter red */
+    --rating-excellent: 139 35% 50%;
+    /* Brighter green for dark mode */
+    --rating-great: 139 29% 45%;
+    /* Adjusted green */
+    --rating-good: 45 93% 55%;
+    /* Brighter yellow */
+    --rating-poor: 25 95% 60%;
+    /* Brighter orange */
+    --rating-bad: 0 84% 65%;
+    /* Brighter red */
   }
 }
 
@@ -76,7 +125,7 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -139,17 +188,202 @@
   .safe-area-inset-top {
     padding-top: max(var(--spacing-4), env(safe-area-inset-top));
   }
-  
+
   .safe-area-inset-bottom {
     padding-bottom: max(var(--spacing-4), env(safe-area-inset-bottom));
   }
-  
+
   .safe-area-inset-left {
     padding-left: max(var(--spacing-4), env(safe-area-inset-left));
   }
-  
+
   .safe-area-inset-right {
     padding-right: max(var(--spacing-4), env(safe-area-inset-right));
+  }
+}
+
+/* FoodyLog Layout Components */
+@layer components {
+
+  /* App Layout - Main container with CSS Grid */
+  .app-layout {
+    @apply min-h-screen bg-background text-foreground;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "navigation";
+  }
+
+  .app-layout__main {
+    grid-area: main;
+    @apply flex flex-col;
+  }
+
+  .app-layout__content {
+    @apply flex-1 w-full max-w-4xl mx-auto px-4 py-6;
+  }
+
+  /* Header Component */
+  .header {
+    grid-area: header;
+    @apply sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+    /* Safe area handling for mobile notches */
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .header__container {
+    @apply flex h-14 items-center justify-between max-w-4xl mx-auto px-4;
+  }
+
+  .header__brand {
+    @apply flex items-center space-x-2;
+  }
+
+  .header__logo {
+    @apply text-2xl;
+  }
+
+  .header__title {
+    @apply text-xl font-bold text-foreground;
+  }
+
+  .header__actions {
+    @apply flex items-center space-x-2;
+  }
+
+  /* Navigation Component - Mobile-first bottom navigation */
+  .navigation {
+    grid-area: navigation;
+    @apply border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+    /* Safe area handling for mobile home indicators */
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .navigation__container {
+    @apply flex items-center justify-around max-w-4xl mx-auto px-2 py-2;
+  }
+
+  .navigation__item {
+    @apply relative flex flex-col items-center justify-center min-w-0 flex-1 px-2 py-2 text-xs font-medium transition-colors duration-200 rounded-lg;
+    /* Minimum touch target size for accessibility */
+    min-height: 44px;
+  }
+
+  .navigation__item:hover {
+    @apply bg-muted;
+  }
+
+  .navigation__item--active {
+    @apply text-primary;
+  }
+
+  .navigation__item--primary {
+    @apply bg-primary text-primary-foreground rounded-full mx-2 px-4;
+  }
+
+  .navigation__item--primary:hover {
+    @apply bg-primary/90;
+  }
+
+  .navigation__icon {
+    @apply flex items-center justify-center mb-1;
+  }
+
+  .navigation__label {
+    @apply text-xs font-medium leading-none truncate;
+  }
+
+  .navigation__indicator {
+    @apply absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full;
+  }
+
+  /* Responsive adjustments for larger screens */
+  @media (min-width: 768px) {
+    .app-layout__content {
+      @apply px-6 py-8;
+    }
+
+    .header__container {
+      @apply px-6;
+    }
+
+    /* Hide bottom navigation on larger screens, show sidebar instead */
+    .navigation {
+      @apply hidden;
+    }
+
+    /* TODO: Add sidebar navigation for desktop in future iterations */
+  }
+
+  @media (min-width: 1024px) {
+    .app-layout__content {
+      @apply px-8;
+    }
+
+    .header__container {
+      @apply px-8;
+    }
+  }
+}
+
+/* Custom animations for FoodyLog */
+@layer utilities {
+  @keyframes shutter {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.3;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes star-fill {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.2);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    25% {
+      transform: translateX(-5px);
+    }
+
+    75% {
+      transform: translateX(5px);
+    }
+  }
+
+  .animate-shutter {
+    animation: shutter 0.3s ease-in-out;
+  }
+
+  .animate-star-fill {
+    animation: star-fill 0.3s ease-in-out;
+  }
+
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
   }
 }
 

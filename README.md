@@ -65,10 +65,10 @@ bun run test:coverage # Run tests with coverage
 ```
 src/
 ├── components/          # Reusable UI components
-│   ├── ui/             # Base UI components
-│   └── layout/         # Layout components
+│   ├── ui/             # shadcn/ui base components
+│   └── layout/         # Layout components (Navigation, Header)
 ├── pages/              # Route components
-├── lib/                # Utility libraries
+├── lib/                # Utility libraries (utils.ts, theme.ts)
 ├── types/              # TypeScript definitions
 ├── hooks/              # Custom React hooks
 └── assets/             # Static assets
@@ -80,7 +80,8 @@ src/
 - **Mobile**: Capacitor 7 for iOS/Android native builds
 - **Routing**: React Router DOM (SPA)
 - **PWA**: Vite PWA Plugin with Workbox
-- **Styling**: CSS Custom Properties + Mobile-first
+- **UI Components**: shadcn/ui with custom FoodyLog theme
+- **Styling**: Tailwind CSS + CSS Custom Properties
 - **Testing**: Vitest + React Testing Library
 - **Package Manager**: Bun
 
@@ -117,6 +118,9 @@ src/
 - ✅ Capacitor 7 mobile platform configuration
 - ✅ Android emulator deployment working
 - ✅ iOS platform ready (requires macOS for testing)
+- ✅ shadcn/ui design system with custom FoodyLog theme
+- ✅ Bottom navigation component for mobile-first UX
+- ✅ Tailwind CSS integration with warm cream/brown/green palette
 
 ### Planned Features
 
@@ -141,6 +145,29 @@ bun run test --watch
 # Run tests with coverage
 bun run test:coverage
 ```
+
+## 🎨 Design System
+
+FoodyLog uses a custom design system built on shadcn/ui with a warm, food-focused theme:
+
+### Theme Colors
+- **Light Mode**: Warm cream background (#f0e5d9) with dark brown text (#2f2a25)
+- **Dark Mode**: Dark brown background (#1e1b1a) with cream text (#f0e5d9)
+- **Accent**: Green (#5da271 light, #4b845e dark) for primary actions
+- **Rating Colors**: Color-coded meal ratings (excellent, great, good, poor, bad)
+
+### Components Implemented
+- ✅ **Navigation**: Mobile-first bottom navigation with 5 main sections
+- ✅ **Button**: Multiple variants (default, outline, ghost, destructive)
+- ✅ **Theme Toggle**: Automatic dark/light mode switching
+- ✅ **Typography**: Consistent text styles and hierarchy
+- ✅ **Layout**: CSS Grid-based app layout with safe area handling
+
+### Accessibility
+- WCAG 2.1 AA contrast compliance
+- Keyboard navigation support
+- Screen reader compatibility
+- Touch-friendly 44px minimum targets
 
 ## 📱 PWA Features
 
