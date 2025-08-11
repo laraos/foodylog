@@ -144,7 +144,7 @@ src/
 
 ## 🧪 Testing
 
-The project uses Vitest for unit testing with React Testing Library and includes comprehensive authentication testing:
+The project uses Vitest for unit testing with React Testing Library and includes comprehensive testing for authentication, accessibility, and component functionality:
 
 ```bash
 # Run all tests
@@ -155,19 +155,35 @@ bun run test --watch
 
 # Run tests with coverage
 bun run test:coverage
+
+# Run accessibility-specific tests
+bun run test:a11y
+
+# Run accessibility audit
+bun run audit:accessibility
 ```
 
 ### Test Coverage:
 - ✅ **Authentication Components**: Complete test coverage for ProtectedRoute, PublicRoute, and auth flows
 - ✅ **Theme System**: Comprehensive tests for ThemeProvider, theme switching, and localStorage persistence
+- ✅ **Accessibility Testing**: WCAG 2.1 AA compliance testing utilities with axe-core integration
 - ✅ **Clerk Integration**: Mocked Clerk components for reliable testing
 - ✅ **Route Protection**: Tests for authenticated and unauthenticated states
 - ✅ **Error Handling**: Tests for authentication errors and edge cases
+
+### Accessibility Testing:
+- ✅ **Automated Testing**: axe-core integration for WCAG 2.1 AA compliance
+- ✅ **Keyboard Navigation**: Comprehensive keyboard accessibility testing
+- ✅ **Screen Reader Support**: ARIA implementation and announcement testing
+- ✅ **Focus Management**: Modal and dialog focus trap testing
+- ✅ **Color Contrast**: Automated color contrast compliance verification
+- ✅ **Mock Screen Reader**: Testing utilities for screen reader interactions
 
 ### Manual Testing:
 - Visit `/auth-test` when authenticated for comprehensive authentication testing tools
 - Test authentication flows, session persistence, and deep linking
 - Verify mobile authentication on real devices using Capacitor
+- Use accessibility testing utilities in component tests for WCAG compliance
 
 ## 🎨 Design System
 

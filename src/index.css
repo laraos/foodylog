@@ -24,8 +24,8 @@
     /* #f0e5d9 - Popover background */
     --popover-foreground: 30 12% 16%;
     /* #2f2a25 - Popover text */
-    --primary: 139 29% 42%;
-    /* #5da271 - Green accent for primary actions */
+    --primary: 139 35% 35%;
+    /* #4a7c5d - Darker green for better contrast */
     --primary-foreground: 0 0% 100%;
     /* #ffffff - White text on green */
     --secondary: 30 33% 80%;
@@ -36,12 +36,12 @@
     /* #e3d5c5 - Muted background for hover states */
     --muted-foreground: 30 12% 16%;
     /* #2f2a25 - Text on muted backgrounds */
-    --accent: 139 29% 42%;
-    /* #5da271 - Same as primary for consistency */
+    --accent: 139 35% 35%;
+    /* #4a7c5d - Same as primary for consistency */
     --accent-foreground: 0 0% 100%;
     /* #ffffff - White text on accent */
-    --destructive: 0 84% 60%;
-    /* #ef4444 - Red for destructive actions */
+    --destructive: 0 84% 50%;
+    /* #dc2626 - Darker red for better contrast */
     --destructive-foreground: 0 0% 100%;
     /* #ffffff - White text on red */
     --border: 30 33% 80%;
@@ -53,17 +53,17 @@
     --radius: 0.5rem;
     /* 8px border radius */
 
-    /* FoodyLog Rating Colors */
-    --rating-excellent: 139 35% 45%;
-    /* Darker green for excellent ratings */
-    --rating-great: 139 29% 42%;
-    /* Primary green for great ratings */
-    --rating-good: 45 93% 47%;
-    /* Yellow for good ratings */
-    --rating-poor: 25 95% 53%;
-    /* Orange for poor ratings */
-    --rating-bad: 0 84% 60%;
-    /* Red for bad ratings */
+    /* FoodyLog Rating Colors - WCAG AA Compliant */
+    --rating-excellent: 139 45% 28%;
+    /* #366142 - Darker green for excellent ratings */
+    --rating-great: 139 40% 30%;
+    /* #3d6b4a - Darker green for great ratings */
+    --rating-good: 45 85% 27%;
+    /* #826907 - Darkest yellow for good ratings */
+    --rating-poor: 25 90% 35%;
+    /* #b84a00 - Darker orange for poor ratings */
+    --rating-bad: 0 84% 42%;
+    /* #c41c1c - Darker red for bad ratings */
   }
 
   .dark {
@@ -80,10 +80,10 @@
     /* #1e1b1a - Popover background */
     --popover-foreground: 30 43% 90%;
     /* #f0e5d9 - Popover text */
-    --primary: 139 29% 35%;
-    /* #4b845e - Darker green for dark mode */
-    --primary-foreground: 30 12% 16%;
-    /* #2f2a25 - Dark text on green (better contrast) */
+    --primary: 139 45% 35%;
+    /* #3f8653 - Even darker green for better contrast in dark mode */
+    --primary-foreground: 0 0% 100%;
+    /* #ffffff - White text on green for better contrast */
     --secondary: 34 12% 22%;
     /* #453f3b - Darker secondary */
     --secondary-foreground: 30 43% 90%;
@@ -92,20 +92,20 @@
     /* #2a2522 - Muted background */
     --muted-foreground: 30 43% 90%;
     /* #f0e5d9 - Cream text on muted */
-    --accent: 139 29% 35%;
-    /* #4b845e - Same as primary */
-    --accent-foreground: 30 12% 16%;
-    /* #2f2a25 - Dark text on accent */
-    --destructive: 0 84% 60%;
-    /* #ef4444 - Same red for destructive */
+    --accent: 139 45% 35%;
+    /* #3f8653 - Same as primary */
+    --accent-foreground: 0 0% 100%;
+    /* #ffffff - White text on accent for better contrast */
+    --destructive: 0 84% 50%;
+    /* #dc2626 - Darker red for better contrast */
     --destructive-foreground: 0 0% 100%;
     /* #ffffff - White text on red */
     --border: 34 12% 22%;
     /* #453f3b - Darker borders */
     --input: 28 9% 16%;
     /* #2a2522 - Darker input background */
-    --ring: 139 29% 35%;
-    /* #4b845e - Focus ring color */
+    --ring: 139 45% 35%;
+    /* #3f8653 - Focus ring color */
 
     /* FoodyLog Rating Colors - Dark Mode Adjusted */
     --rating-excellent: 139 35% 50%;

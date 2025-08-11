@@ -602,8 +602,30 @@ Components include comprehensive accessibility support:
 Components are tested with:
 
 - **Unit Tests**: Vitest + React Testing Library
-- **Accessibility Tests**: axe-core integration
+- **Accessibility Tests**: axe-core integration with custom FoodyLog configuration
 - **Visual Regression**: Planned for future iterations
+
+### Accessibility Testing Utilities
+
+**Location**: `src/test/accessibility.ts`
+
+All components should include accessibility testing using our comprehensive testing utilities:
+
+```typescript
+import { render } from '@testing-library/react';
+import { testAccessibility } from '~/test/accessibility';
+
+test('Component accessibility compliance', async () => {
+  const renderResult = render(<YourComponent />);
+  
+  await testAccessibility(renderResult, {
+    expectedFocusableElements: 2, // Number of interactive elements
+    expectedAriaLive: ['polite'], // Expected live regions
+    skipColorContrast: false, // Test color contrast
+    skipKeyboardNavigation: false // Test keyboard navigation
+  });
+});
+```
 
 ### Current Test Coverage
 
@@ -623,6 +645,108 @@ Components are tested with:
 - ✅ **Clerk integration**: Mocked authentication flows and session management
 - ✅ **Route protection**: Comprehensive testing of authenticated/unauthenticated states
 - ✅ **Error handling**: Authentication errors and edge case scenarios
+
+#### Accessibility Testing Framework
+- ✅ **axe-core Configuration**: Custom configuration for FoodyLog's design system
+- ✅ **Keyboard Navigation Testing**: Automated testing of tab order and keyboard accessibility
+- ✅ **Focus Management Testing**: Modal and dialog focus trap verification
+- ✅ **Screen Reader Testing**: ARIA implementation and announcement verification
+- ✅ **Color Contrast Testing**: WCAG AA compliance verification
+- ✅ **Mock Screen Reader**: Testing utilities for screen reader interactions
+- ✅ **Comprehensive Test Suite**: Single function to run all accessibility tests
+
+### Component Testing Examples
+
+#### Basic Component Accessibility Test
+
+```typescript
+import { render } from '@testing-library/react';
+import { testAccessibility } from '~/test/accessibility';
+import { Button } from '~/components/ui/button';
+
+describe('Button Accessibility', () => {
+  test('meets WCAG 2.1 AA standards', async () => {
+    const renderResult = render(
+      <Button onClick={vi.fn()}>Save Meal</Button>
+    );
+
+    await testAccessibility(renderResult, {
+      expectedFocusableElements: 1,
+    });
+  });
+});
+```
+
+#### Form Component Accessibility Test
+
+```typescript
+import { render } from '@testing-library/react';
+import { testAccessibility, testScreenReaderAnnouncements } from '~/test/accessibility';
+import { MealForm } from '~/components/meal/MealForm';
+
+describe('MealForm Accessibility', () => {
+  test('form accessibility compliance', async () => {
+    const renderResult = render(<MealForm onSubmit={vi.fn()} />);
+
+    await testAccessibility(renderResult, {
+      expectedFocusableElements: 6, // All form inputs and submit button
+      expectedAriaLive: ['polite'], // Form validation messages
+    });
+  });
+
+  test('proper form labeling', async () => {
+    const renderResult = render(<MealForm onSubmit={vi.fn()} />);
+    
+    testScreenReaderAnnouncements(renderResult, ['polite']);
+  });
+});
+```
+
+#### Navigation Component Accessibility Test
+
+```typescript
+import { render } from '@testing-library/react';
+import { testKeyboardNavigation } from '~/test/accessibility';
+import { Navigation } from '~/components/layout/Navigation';
+
+describe('Navigation Accessibility', () => {
+  test('keyboard navigation works correctly', async () => {
+    const renderResult = render(<Navigation />);
+
+    const focusableElements = await testKeyboardNavigation(renderResult, 5);
+    
+    // Verify all navigation items are accessible
+    expect(focusableElements).toHaveLength(5);
+    expect(focusableElements[2]).toHaveAttribute('href', '/add'); // Primary action
+  });
+});
+```
+
+#### Modal Component Focus Management Test
+
+```typescript
+import { render } from '@testing-library/react';
+import { testFocusTrap } from '~/test/accessibility';
+import { MealEditDialog } from '~/components/meal/MealEditDialog';
+
+describe('MealEditDialog Accessibility', () => {
+  test('focus management works correctly', async () => {
+    const renderResult = render(
+      <MealEditDialog 
+        isOpen={true} 
+        meal={mockMeal} 
+        onClose={vi.fn()} 
+      />
+    );
+
+    await testFocusTrap(
+      renderResult,
+      '[data-testid="edit-meal-button"]',
+      '[role="dialog"]'
+    );
+  });
+});
+```
 
 ## 📝 Usage Guidelines
 
