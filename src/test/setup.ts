@@ -2,16 +2,22 @@
  * Vitest Test Setup
  * 
  * Global test configuration and setup for FoodyLog tests.
- * Includes mocks for browser APIs and test utilities.
+ * Includes mocks for browser APIs, external dependencies, and test utilities.
+ * This file is automatically loaded before each test file.
  */
 
 import { afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { setupMocks, resetMocks } from './mocks';
+
+// Setup all mocks before tests run
+setupMocks();
 
 // Cleanup after each test case
 afterEach(() => {
   cleanup();
+  resetMocks();
 });
 
 // Mock environment variables

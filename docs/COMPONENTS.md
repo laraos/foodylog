@@ -30,11 +30,26 @@ function App() {
 }
 ```
 
+**Props:**
+- `children: React.ReactNode` - App content to wrap with theme context
+- `defaultTheme?: Theme` - Initial theme ('light' | 'dark' | 'system'), defaults to 'system'
+- `storageKey?: string` - localStorage key for theme persistence, defaults to 'foodylog-ui-theme'
+
 **Features:**
-- Automatic system theme detection
-- localStorage persistence
-- Smooth theme transitions
-- CSS custom property integration
+- Automatic system theme detection via `matchMedia('(prefers-color-scheme: dark)')`
+- localStorage persistence with custom storage key support
+- Smooth theme transitions with CSS class management
+- CSS custom property integration for consistent theming
+- Document root class management ('light'/'dark' classes)
+
+**Testing:**
+- ✅ **Comprehensive test coverage** in `src/lib/theme.test.tsx`
+- ✅ **Theme switching functionality** with all three modes (light/dark/system)
+- ✅ **localStorage persistence** and retrieval testing
+- ✅ **System preference detection** with mocked matchMedia
+- ✅ **Document class management** verification
+- ✅ **Custom storage key support** testing
+- ✅ **Theme context integration** with useTheme hook
 
 #### ThemeToggle
 **Location**: `src/components/theme-toggle.tsx`
@@ -462,6 +477,30 @@ import { clerkConfig } from '~/lib/auth/clerk';
 
 ## 📚 Utility Functions
 
+### Theme Utils
+**Location**: `src/lib/theme.ts`
+
+Theme-related utility functions and hooks.
+
+```typescript
+import { useTheme, getEffectiveTheme, themeConfig } from '~/lib/theme';
+
+// Theme hook (graceful fallback if used outside provider)
+const { theme, setTheme } = useTheme();
+
+// Get effective theme (resolves 'system' to actual theme)
+const effectiveTheme = getEffectiveTheme('system'); // 'light' or 'dark'
+
+// Access theme colors programmatically
+const lightColors = themeConfig.light;
+const darkColors = themeConfig.dark;
+```
+
+**Functions:**
+- `useTheme()` - Hook for accessing theme context with graceful fallback
+- `getEffectiveTheme(theme)` - Resolves 'system' theme to actual light/dark preference
+- `themeConfig` - Object containing theme color definitions for programmatic access
+
 ### Core Utils
 **Location**: `src/lib/utils.ts`
 
@@ -565,6 +604,25 @@ Components are tested with:
 - **Unit Tests**: Vitest + React Testing Library
 - **Accessibility Tests**: axe-core integration
 - **Visual Regression**: Planned for future iterations
+
+### Current Test Coverage
+
+#### Theme System (`src/lib/theme.test.tsx`)
+- ✅ **ThemeProvider functionality**: Default theme, stored theme loading, custom defaults
+- ✅ **Theme switching**: Light, dark, and system mode transitions
+- ✅ **localStorage integration**: Theme persistence and custom storage keys
+- ✅ **System preference detection**: Automatic dark/light mode based on OS settings
+- ✅ **Document class management**: Proper CSS class application and removal
+- ✅ **useTheme hook**: Context access with graceful fallback behavior
+- ✅ **getEffectiveTheme utility**: System theme resolution to actual light/dark values
+- ✅ **Integration testing**: Complete theme switching workflow verification
+
+#### Authentication System
+- ✅ **ProtectedRoute component**: Authentication state checking and redirects
+- ✅ **PublicRoute component**: Unauthenticated-only route protection
+- ✅ **Clerk integration**: Mocked authentication flows and session management
+- ✅ **Route protection**: Comprehensive testing of authenticated/unauthenticated states
+- ✅ **Error handling**: Authentication errors and edge case scenarios
 
 ## 📝 Usage Guidelines
 

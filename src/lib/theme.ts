@@ -80,13 +80,14 @@ export function ThemeProvider({
  * Hook to access theme context
  * 
  * @returns Theme context with current theme and setter function
- * @throws Error if used outside of ThemeProvider
+ * Returns initial state if used outside of ThemeProvider for graceful fallback
  */
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
 
-  if (context === undefined)
-    {throw new Error('useTheme must be used within a ThemeProvider');}
+  if (context === undefined) {
+    return initialState;
+  }
 
   return context;
 };
