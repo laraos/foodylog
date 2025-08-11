@@ -34,12 +34,22 @@ if (!CLERK_PUBLISHABLE_KEY || isPlaceholderKey) {
  * 
  * This configuration customizes Clerk's appearance and behavior
  * to match FoodyLog's design system and user experience.
+ * Includes proper redirect URL configuration for protected routes.
  */
 export const clerkConfig = {
   publishableKey: CLERK_PUBLISHABLE_KEY || 'pk_test_development_mode',
   
-  // Routing configuration
+  // Routing configuration for SPA
   routing: 'path' as const,
+  
+  // Default redirect URLs for better UX
+  signInUrl: '/auth/sign-in',
+  signUpUrl: '/auth/sign-up',
+  afterSignInUrl: '/meals',
+  afterSignUpUrl: '/meals',
+  
+  // Session configuration for better persistence
+  sessionTokenTemplate: 'foodylog_session',
   
   // Custom appearance to match FoodyLog design
   appearance: {
@@ -236,7 +246,7 @@ export const clerkEnvironmentConfig = {
  * This can help identify when the Cloudflare issue might occur.
  */
 export const isDeviceEmulation = (): boolean => {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === 'undefined') {return false;}
   
   // Check for common device emulation indicators
   const userAgent = navigator.userAgent;
@@ -262,9 +272,161 @@ export const showDeviceEmulationWarning = (): void => {
       '1. Disable Chrome DevTools device toolbar\n' +
       '2. Complete authentication in desktop mode\n' +
       '3. Re-enable device toolbar for UI testing\n' +
-      '4. Or use real mobile devices with Capacitor live reload'
+      '4. Or use real mobile devices with Capacitor live reload',
     );
   }
 };
 
 export default clerkConfig;
+/**
+
+ * Protected Route Configuration
+ * 
+ * Configuration for protected routes and redirect behavior.
+ * Used by ProtectedRoute component for consistent routing.
+ */
+export const protectedRouteConfig = {
+  // Default redirect for unauthenticated users
+  signInRedirect: '/auth/sign-in',
+  
+  // Default redirect after successful authentication
+  defaultRedirect: '/meals',
+  
+  // Routes that should redirect to specific pages after auth
+  routeRedirects: {
+    '/': '/meals',
+    '/home': '/meals',
+    '/dashboard': '/meals',
+  },
+  
+  // Public routes that don't require authentication
+  publicRoutes: [
+    '/auth/sign-in',
+    '/auth/sign-up',
+    '/auth/sso-callback',
+    '/terms',
+    '/privacy',
+    '/about',
+  ],
+  
+  // Routes that should be accessible to authenticated users only
+  protectedRoutes: [
+    '/meals',
+    '/add',
+    '/search',
+    '/analytics',
+    '/settings',
+    '/auth-test',
+    '/components',
+  ],
+} as const;
+
+/**
+ * Session Management Helpers
+ * 
+ * Utilities for managing user sessions and authentication state.
+ */
+export const sessionHelpers = {
+  /**
+   * Check if a route is protected
+   */
+  isProtectedRoute: (pathname: string): boolean => {
+    return protectedRouteConfig.protectedRoutes.some(route => 
+      pathname.startsWith(route),
+    );
+  },
+  
+  /**
+   * Check if a route is public
+   */
+  isPublicRoute: (pathname: string): boolean => {
+    return protectedRouteConfig.publicRoutes.some(route => 
+      pathname.startsWith(route),
+    );
+  },
+  
+  /**
+   * Get redirect URL after authentication
+   */
+  getRedirectUrl: (intendedPath?: string): string => {
+    if (intendedPath && protectedRouteConfig.routeRedirects[intendedPath as keyof typeof protectedRouteConfig.routeRedirects]) {
+      return protectedRouteConfig.routeRedirects[intendedPath as keyof typeof protectedRouteConfig.routeRedirects];
+    }
+    
+    if (intendedPath && sessionHelpers.isProtectedRoute(intendedPath)) {
+      return intendedPath;
+    }
+    
+    return protectedRouteConfig.defaultRedirect;
+  },
+  
+  /**
+   * Store intended destination for post-auth redirect
+   */
+  storeIntendedDestination: (pathname: string, search?: string): void => {
+    if (sessionHelpers.isProtectedRoute(pathname)) {
+      const fullPath = pathname + (search || '');
+      sessionStorage.setItem('foodylog_intended_destination', fullPath);
+    }
+  },
+  
+  /**
+   * Get and clear stored intended destination
+   */
+  getAndClearIntendedDestination: (): string | null => {
+    const destination = sessionStorage.getItem('foodylog_intended_destination');
+    if (destination) {
+      sessionStorage.removeItem('foodylog_intended_destination');
+      return destination;
+    }
+    return null;
+  },
+} as const;
+
+/**
+ * Deep Linking Support
+ * 
+ * Utilities for handling deep links and preserving navigation state.
+ */
+export const deepLinkHelpers = {
+  /**
+   * Handle deep link navigation after authentication
+   */
+  handleDeepLink: (location: { pathname: string; search: string }): string => {
+    // Store the intended destination
+    sessionHelpers.storeIntendedDestination(location.pathname, location.search);
+    
+    // Return the sign-in URL
+    return protectedRouteConfig.signInRedirect;
+  },
+  
+  /**
+   * Process post-authentication navigation
+   */
+  processPostAuthNavigation: (): string => {
+    // Check for stored intended destination first
+    const intendedDestination = sessionHelpers.getAndClearIntendedDestination();
+    if (intendedDestination) {
+      return intendedDestination;
+    }
+    
+    // Check URL parameters for redirect
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectTo = urlParams.get('redirect_to');
+    if (redirectTo && sessionHelpers.isProtectedRoute(redirectTo)) {
+      return redirectTo;
+    }
+    
+    // Default redirect
+    return protectedRouteConfig.defaultRedirect;
+  },
+  
+  /**
+   * Generate authentication URL with return path
+   */
+  generateAuthUrl: (returnPath: string, isSignUp: boolean = false): string => {
+    const baseUrl = isSignUp ? '/auth/sign-up' : '/auth/sign-in';
+    const encodedReturnPath = encodeURIComponent(returnPath);
+    return `${baseUrl}?redirect_to=${encodedReturnPath}`;
+  },
+} as const;

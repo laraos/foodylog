@@ -5,6 +5,18 @@ module.exports = {
     es2020: true,
     node: true 
   },
+  globals: {
+    // Vitest globals
+    describe: 'readonly',
+    it: 'readonly',
+    test: 'readonly',
+    expect: 'readonly',
+    beforeEach: 'readonly',
+    afterEach: 'readonly',
+    beforeAll: 'readonly',
+    afterAll: 'readonly',
+    vi: 'readonly',
+  },
   extends: [
     'eslint:recommended',
     'plugin:react-hooks/recommended',

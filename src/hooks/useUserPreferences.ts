@@ -144,7 +144,7 @@ export const useThemePreference = () => {
     (theme: 'light' | 'dark' | 'system') => {
       return updatePreferences({ theme });
     },
-    [updatePreferences]
+    [updatePreferences],
   );
 
   return {
@@ -165,7 +165,7 @@ export const useCurrencyPreference = () => {
     (currency: string) => {
       return updatePreferences({ currency });
     },
-    [updatePreferences]
+    [updatePreferences],
   );
 
   return {
@@ -186,7 +186,7 @@ export const useDefaultMealTypePreference = () => {
     (defaultMealType: 'breakfast' | 'lunch' | 'dinner' | 'snack') => {
       return updatePreferences({ defaultMealType });
     },
-    [updatePreferences]
+    [updatePreferences],
   );
 
   return {

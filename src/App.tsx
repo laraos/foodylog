@@ -21,6 +21,7 @@ import { AddMealPage } from './pages/AddMealPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ComponentDemo } from './pages/ComponentDemo';
+import { AuthTestPage } from './components/auth/AuthTestPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
@@ -116,6 +117,16 @@ function App() {
               <ProtectedRoute>
                 <AppLayout>
                   <ComponentDemo />
+                </AppLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/auth-test" 
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <AuthTestPage />
                 </AppLayout>
               </ProtectedRoute>
             } 

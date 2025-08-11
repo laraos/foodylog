@@ -2,20 +2,20 @@
  * ProtectedRoute Component
  * 
  * A wrapper component that ensures users are authenticated before
- * accessing protected content. Integrates with react-router-dom
- * to handle redirects and maintains the intended destination.
+ * accessing protected content. Uses Clerk's built-in SignedIn/SignedOut
+ * components for reliable authentication state management.
  * 
  * Features:
- * - Authentication state checking
- * - Automatic redirect to sign-in page
- * - Preserves intended destination for post-auth redirect
+ * - Clerk's built-in authentication state checking
+ * - Automatic redirect to sign-in page with preserved destination
  * - Loading states during authentication checks
- * - Error handling for authentication issues
+ * - Session persistence across app restarts
+ * - Deep linking support with proper redirects
  */
 
 import React from 'react';
+import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 
 /**
  * Props for ProtectedRoute component
@@ -29,8 +29,8 @@ interface ProtectedRouteProps {
 /**
  * ProtectedRoute Component
  * 
- * Wraps components that require authentication. Redirects unauthenticated
- * users to the sign-in page while preserving their intended destination.
+ * Wraps components that require authentication using Clerk's built-in
+ * SignedIn/SignedOut components for reliable authentication state management.
  * 
  * @param children - The protected content to render when authenticated
  * @param fallback - Optional custom loading component
@@ -48,11 +48,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   fallback,
   redirectTo = '/auth/sign-in',
 }) => {
-  const { isAuthenticated, isLoading, error } = useAuth();
+  const { isLoaded } = useAuth();
   const location = useLocation();
   
-  // Show loading state while authentication is being determined
-  if (isLoading) {
+  // Show loading state while Clerk is loading
+  if (!isLoaded) {
     return (
       fallback || (
         <div className="min-h-screen flex items-center justify-center bg-background">
@@ -67,65 +67,30 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
   
-  // Show error state if there's an authentication error
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <div className="max-w-md text-center">
-          <div className="mb-4">
-            <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg
-                className="w-6 h-6 text-destructive"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold text-foreground mb-2">
-              Authentication Error
-            </h2>
-            <p className="text-sm text-muted-foreground mb-4">
-              {error}
-            </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
-            >
-              Refresh Page
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  
-  // Redirect to sign-in if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <Navigate
-        to={redirectTo}
-        state={{ from: location }}
-        replace
-      />
-    );
-  }
-  
-  // Render protected content
-  return <>{children}</>;
+  return (
+    <>
+      {/* Render content when user is signed in */}
+      <SignedIn>
+        {children}
+      </SignedIn>
+      
+      {/* Redirect to sign-in when user is signed out */}
+      <SignedOut>
+        <Navigate
+          to={redirectTo}
+          state={{ from: location }}
+          replace
+        />
+      </SignedOut>
+    </>
+  );
 };
 
 /**
  * RequireAuth Component
  * 
  * Alternative component that throws an error if not authenticated.
- * Useful for components that should never render without authentication.
+ * Uses Clerk's SignedIn component for reliable authentication checking.
  * 
  * @param children - The content that requires authentication
  * 
@@ -139,24 +104,28 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 export const RequireAuth: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
   
-  if (isLoading) {
+  if (!isLoaded) {
     throw new Error('Authentication is still loading');
   }
   
-  if (!isAuthenticated || !user) {
+  if (!isSignedIn) {
     throw new Error('Authentication required');
   }
   
-  return <>{children}</>;
+  return (
+    <SignedIn>
+      {children}
+    </SignedIn>
+  );
 };
 
 /**
  * PublicRoute Component
  * 
  * Wrapper for routes that should only be accessible to unauthenticated users.
- * Redirects authenticated users to the main app.
+ * Uses Clerk's SignedIn/SignedOut components for reliable state management.
  * 
  * @param children - The public content to render
  * @param redirectTo - Where to redirect authenticated users
@@ -175,10 +144,10 @@ export const PublicRoute: React.FC<{
   children,
   redirectTo = '/meals',
 }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoaded } = useAuth();
   
-  // Show loading state
-  if (isLoading) {
+  // Show loading state while Clerk is loading
+  if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -186,12 +155,19 @@ export const PublicRoute: React.FC<{
     );
   }
   
-  // Redirect if authenticated
-  if (isAuthenticated) {
-    return <Navigate to={redirectTo} replace />;
-  }
-  
-  return <>{children}</>;
+  return (
+    <>
+      {/* Render content when user is signed out */}
+      <SignedOut>
+        {children}
+      </SignedOut>
+      
+      {/* Redirect to main app when user is signed in */}
+      <SignedIn>
+        <Navigate to={redirectTo} replace />
+      </SignedIn>
+    </>
+  );
 };
 
 export default ProtectedRoute;

@@ -368,6 +368,43 @@ import { DevelopmentAuthWrapper } from '~/components/auth/DevelopmentAuthWrapper
 - `children: React.ReactNode` - App content to render when configured
 - `isClerkConfigured: boolean` - Whether Clerk is properly set up
 
+### AuthTestPage
+**Location**: `src/components/auth/AuthTestPage.tsx`
+
+Comprehensive authentication testing interface for manual verification of authentication flows, session management, and deep linking functionality.
+
+```typescript
+import { AuthTestPage } from '~/components/auth/AuthTestPage';
+
+// Used in App.tsx routing (protected route)
+<Route path="/auth-test" element={<AuthTestPage />} />
+```
+
+**Features:**
+- **Authentication State Display**: Real-time display of current authentication status from Clerk
+- **User Information**: Shows user profile data, creation/update timestamps, and session details
+- **Session Information**: Displays session persistence data, current URL, and timing information
+- **Test Actions**: Interactive buttons for testing deep linking, page refresh, and navigation
+- **Protected Route Verification**: Visual confirmation that protected routes are working correctly
+- **Manual Testing Tools**: Comprehensive tools for testing authentication flows
+
+**Key Testing Capabilities:**
+- Deep link testing to protected routes (e.g., `/analytics`)
+- Session persistence verification across page refreshes
+- Navigation testing to different protected routes
+- Sign-out functionality testing
+- Authentication state monitoring
+
+**Usage:**
+- Access via `/auth-test` when authenticated
+- Provides step-by-step testing instructions
+- Shows real-time authentication state changes
+- Includes visual indicators for successful authentication features
+
+**Props:** None (self-contained component)
+
+**Security Note:** This component is only accessible to authenticated users via protected routes and is intended for development and testing purposes.
+
 ## 🔐 Authentication Patterns
 
 ### useAuth Hook
