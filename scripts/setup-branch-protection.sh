@@ -39,7 +39,7 @@ setup_branch_protection() {
     
     gh api repos/${REPO}/branches/${branch}/protection \
         --method PUT \
-        --field required_status_checks='{"strict":true,"contexts":["Quality Checks","Build Web App","Build Android App","Build iOS App","Security Checks"]}' \
+        --field required_status_checks='{"strict":true,"contexts":["Code Quality & Testing","Build Web (PWA)","Build Android","Build iOS","Security & Performance Audit"]}' \
         --field enforce_admins=true \
         --field required_pull_request_reviews='{"required_approving_review_count":1,"dismiss_stale_reviews":true,"require_code_owner_reviews":false}' \
         --field restrictions=null \

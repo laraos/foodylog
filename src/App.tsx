@@ -22,6 +22,7 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ComponentDemo } from './pages/ComponentDemo';
 import { AuthTestPage } from './components/auth/AuthTestPage';
+import { ConvexTestPage } from './components/ConvexTestPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
@@ -127,6 +128,16 @@ function App() {
               <ProtectedRoute>
                 <AppLayout>
                   <AuthTestPage />
+                </AppLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/convex-test" 
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <ConvexTestPage />
                 </AppLayout>
               </ProtectedRoute>
             } 

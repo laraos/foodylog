@@ -1,279 +1,285 @@
-# 🚀 FoodyLog CI/CD Setup Guide
+# CI/CD Pipeline Setup Guide
 
-This document provides comprehensive instructions for setting up and maintaining the CI/CD pipeline for FoodyLog.
+This document provides comprehensive instructions for setting up and configuring the GitHub Actions CI/CD pipeline for FoodyLog.
 
-## 📋 Overview
+## Overview
 
-The FoodyLog CI/CD pipeline is built with GitHub Actions and provides:
+The CI/CD pipeline implements automated testing, building, and deployment for the FoodyLog application across web (PWA), iOS, and Android platforms using Bun as the package manager.
 
-- **Automated Testing**: Unit tests, integration tests, and type checking
-- **Code Quality**: ESLint, Prettier, and security audits
-- **Multi-Platform Builds**: Web (PWA), iOS, and Android
-- **Automated Deployments**: Staging and production environments
-- **Dependency Management**: Automated dependency updates and security audits
+## Pipeline Architecture
 
-## 🔧 Pipeline Architecture
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Code Quality  │    │   Build Web     │    │  Build Mobile   │
+│   & Testing     │───▶│     (PWA)       │───▶│  (iOS/Android)  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│Security & Perf  │    │Deploy Staging   │    │   Notifications │
+│    Audits       │    │   Environment   │    │   & Reporting   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
-### Workflows
+## Required Environment Secrets
 
-1. **CI/CD Pipeline** (`.github/workflows/ci.yml`)
-   - Runs on every PR and push to main/develop
-   - Quality checks, builds, and deployments
+### GitHub Repository Secrets
 
-2. **Release Pipeline** (`.github/workflows/release.yml`)
-   - Triggered on version tags (v1.0.0, v1.1.0, etc.)
-   - Production builds and GitHub releases
+Navigate to your GitHub repository → Settings → Secrets and variables → Actions, then add the following secrets:
 
-3. **Dependency Updates** (`.github/workflows/dependency-update.yml`)
-   - Weekly automated dependency updates
-   - Security audits and vulnerability checks
-
-## 🔐 Required Secrets
-
-Configure these secrets in your GitHub repository settings:
-
-### Environment Variables
+#### Core Application Secrets
 ```bash
-# Convex Backend
-VITE_CONVEX_URL=https://your-deployment.convex.cloud
-VITE_CONVEX_URL_PROD=https://your-prod-deployment.convex.cloud
+# Convex Backend Configuration
+VITE_CONVEX_URL=https://your-convex-deployment.convex.cloud
+CONVEX_DEPLOY_KEY=your-convex-deploy-key
 
 # Clerk Authentication
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
-VITE_CLERK_PUBLISHABLE_KEY_PROD=pk_live_...
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_your-clerk-publishable-key
 
-# Optional Services
-VITE_GOOGLE_PLACES_API_KEY=AIza...
-VITE_SENTRY_DSN=https://...
+# Staging Environment
+STAGING_URL=https://your-staging-deployment.vercel.app
+```
 
-# Code Coverage (optional)
+#### Optional Secrets (for enhanced features)
+```bash
+# Google Places API (for restaurant search)
+VITE_GOOGLE_PLACES_API_KEY=your-google-places-api-key
+
+# Error Monitoring
+VITE_SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id
+
+# Code Coverage
 CODECOV_TOKEN=your-codecov-token
 ```
 
-### Mobile App Signing (for production releases)
+### Environment Setup Instructions
 
-#### Android Signing
+1. **Convex Setup**:
+   ```bash
+   # Install Convex CLI
+   bun add -g convex
+   
+   # Login and get deploy key
+   bunx convex login
+   bunx convex deploy --cmd-url-env-var-name VITE_CONVEX_URL
+   
+   # Copy the deploy key from Convex dashboard
+   ```
+
+2. **Clerk Setup**:
+   ```bash
+   # Get publishable key from Clerk dashboard
+   # Navigate to: Clerk Dashboard → API Keys → Publishable Key
+   ```
+
+3. **Staging Environment**:
+   ```bash
+   # Set up staging deployment (example with Vercel)
+   vercel --prod
+   # Copy the deployment URL
+   ```
+
+## Branch Protection Rules
+
+### Automated Setup
+
+Run the branch protection setup script:
+
 ```bash
-ANDROID_KEYSTORE_BASE64=<base64-encoded-keystore>
-ANDROID_KEYSTORE_PASSWORD=your-keystore-password
-ANDROID_KEY_ALIAS=your-key-alias
-ANDROID_KEY_PASSWORD=your-key-password
+# Make the script executable
+chmod +x scripts/setup-branch-protection.sh
+
+# Run the script (requires GitHub CLI)
+./scripts/setup-branch-protection.sh
 ```
 
-#### iOS Signing
-```bash
-IOS_CERTIFICATE_BASE64=<base64-encoded-certificate>
-IOS_CERTIFICATE_PASSWORD=your-certificate-password
-IOS_PROVISIONING_PROFILE_BASE64=<base64-encoded-profile>
-```
+### Manual Setup
 
-## 🛠️ Setup Instructions
+1. Navigate to: Repository → Settings → Branches
+2. Add rule for `main` branch:
+   - ✅ Require a pull request before merging
+   - ✅ Require approvals (1 minimum)
+   - ✅ Dismiss stale PR approvals when new commits are pushed
+   - ✅ Require status checks to pass before merging
+   - ✅ Require branches to be up to date before merging
+   - ✅ Required status checks:
+     - `Code Quality & Testing`
+     - `Build Web (PWA)`
+     - `Build Android`
+     - `Build iOS`
+     - `Security & Performance Audit`
+   - ✅ Require conversation resolution before merging
+   - ✅ Include administrators
 
-### 1. Repository Configuration
+## Workflow Triggers
 
-1. **Enable GitHub Actions**
-   ```bash
-   # In your repository settings
-   Settings → Actions → General → Allow all actions and reusable workflows
-   ```
+### Automatic Triggers
+- **Push to `main` or `develop`**: Full pipeline with deployment
+- **Pull Request**: Quality checks and builds (no deployment)
 
-2. **Branch Protection Rules**
-   ```bash
-   # For main branch
-   Settings → Branches → Add rule
-   - Require status checks to pass before merging
-   - Require branches to be up to date before merging
-   - Include administrators
-   ```
+### Manual Triggers
+- **Repository Dispatch**: Custom deployment triggers
+- **Workflow Dispatch**: Manual pipeline execution
 
-3. **Required Status Checks**
-   - `Quality Checks`
-   - `Build Web App`
-   - `Build Android App`
-   - `Build iOS App`
+## Pipeline Jobs
 
-### 2. Environment Setup
+### 1. Code Quality & Testing
+- **Duration**: ~3-5 minutes
+- **Runs on**: Ubuntu Latest
+- **Steps**:
+  - TypeScript type checking
+  - ESLint code linting
+  - Prettier formatting check
+  - Unit tests with Vitest
+  - Accessibility tests
+  - Code coverage upload
 
-1. **Install Dependencies**
-   ```bash
-   bun install
-   ```
+### 2. Build Web (PWA)
+- **Duration**: ~2-3 minutes
+- **Runs on**: Ubuntu Latest
+- **Dependencies**: Code Quality & Testing
+- **Outputs**: Web build artifacts in `dist/`
 
-2. **Setup Pre-commit Hooks** (optional)
-   ```bash
-   # Add to package.json scripts
-   "prepare": "husky install",
-   "pre-commit": "lint-staged"
-   ```
+### 3. Build Android
+- **Duration**: ~5-8 minutes
+- **Runs on**: Ubuntu Latest
+- **Dependencies**: Build Web
+- **Requirements**: Java 17, Android SDK
+- **Outputs**: Android APK
 
-3. **Configure IDE**
-   - Install ESLint and Prettier extensions
-   - Enable format on save
-   - Configure auto-fix on save
+### 4. Build iOS
+- **Duration**: ~8-12 minutes
+- **Runs on**: macOS Latest
+- **Dependencies**: Build Web
+- **Requirements**: Xcode, iOS SDK
+- **Outputs**: iOS app bundle
 
-### 3. Local Development
+### 5. Deploy Staging
+- **Duration**: ~3-5 minutes
+- **Runs on**: Ubuntu Latest
+- **Dependencies**: All build jobs
+- **Triggers**: Only on `main` or `develop` branches
+- **Steps**:
+  - Deploy Convex backend
+  - Deploy web application
+  - Run E2E tests against staging
+  - Send deployment notifications
 
-1. **Run Quality Checks**
-   ```bash
-   # Type checking
-   bun run type-check
-   
-   # Linting
-   bun run lint
-   
-   # Formatting
-   bun run format:check
-   
-   # Testing
-   bun run test
-   ```
+### 6. Security & Performance Audit
+- **Duration**: ~2-4 minutes
+- **Runs on**: Ubuntu Latest
+- **Dependencies**: Code Quality & Testing
+- **Steps**:
+  - Dependency security audit
+  - Lighthouse performance audit
+  - PWA compliance check
 
-2. **Fix Issues**
-   ```bash
-   # Auto-fix linting issues
-   bun run lint:fix
-   
-   # Auto-format code
-   bun run format
-   ```
+## Performance Targets
 
-## 📊 Pipeline Stages
+The pipeline enforces the following performance requirements:
 
-### 1. Quality Checks
-- **Type Checking**: Ensures TypeScript types are correct
-- **Linting**: Checks code style and potential issues
-- **Testing**: Runs unit and integration tests
-- **Coverage**: Generates code coverage reports
+- **Lighthouse Performance**: ≥ 80/100
+- **Lighthouse Accessibility**: ≥ 90/100
+- **Lighthouse Best Practices**: ≥ 80/100
+- **Lighthouse SEO**: ≥ 80/100
+- **Lighthouse PWA**: ≥ 80/100
 
-### 2. Build Verification
-- **Web Build**: Builds the PWA for web deployment
-- **Android Build**: Creates APK for Android devices
-- **iOS Build**: Creates archive for iOS devices
-
-### 3. Security & Dependencies
-- **Security Audit**: Checks for known vulnerabilities
-- **Dependency Check**: Validates dependency integrity
-- **License Check**: Ensures license compliance
-
-### 4. Deployment
-- **Staging**: Automatic deployment to staging environment
-- **Production**: Manual deployment triggered by releases
-
-## 🔄 Release Process
-
-### 1. Prepare Release
-```bash
-# Update version in package.json
-npm version patch|minor|major
-
-# Create and push tag
-git push origin main --tags
-```
-
-### 2. Automated Release
-- GitHub Actions creates release builds
-- Artifacts are uploaded to GitHub releases
-- Production deployment is triggered
-
-### 3. Post-Release
-- Monitor deployment status
-- Verify functionality in production
-- Update documentation if needed
-
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
-1. **Build Failures**
-   ```bash
-   # Check logs in GitHub Actions
-   # Common causes:
-   - Missing environment variables
-   - Dependency conflicts
-   - Type errors
-   ```
-
-2. **Test Failures**
-   ```bash
-   # Run tests locally
-   bun run test
-   
-   # Debug specific test
-   bun run test -- --reporter=verbose
-   ```
-
-3. **Mobile Build Issues**
-   ```bash
-   # Android
-   - Check Java version (17 required)
-   - Verify Android SDK setup
-   - Check signing configuration
-   
-   # iOS
-   - Verify Xcode version
-   - Check certificates and profiles
-   - Validate provisioning setup
-   ```
-
-### Debug Commands
-
+#### 1. Build Failures
 ```bash
-# Check workflow status
-gh workflow list
-
-# View workflow runs
-gh run list
-
-# View specific run logs
-gh run view <run-id>
-
-# Re-run failed jobs
-gh run rerun <run-id>
+# Check build logs in GitHub Actions
+# Common fixes:
+bun install --frozen-lockfile  # Dependency issues
+bun run type-check            # TypeScript errors
+bun run lint:fix              # Linting issues
 ```
 
-## 📈 Monitoring & Metrics
+#### 2. Mobile Build Issues
+```bash
+# Android build failures
+cd android && ./gradlew clean build
 
-### Key Metrics
-- **Build Success Rate**: Target >95%
-- **Test Coverage**: Target >80%
-- **Build Time**: Target <10 minutes
-- **Deployment Frequency**: Track releases per week
+# iOS build failures
+cd ios/App && xcodebuild clean build
+```
 
-### Monitoring Tools
-- GitHub Actions dashboard
-- Codecov for coverage tracking
-- Sentry for error monitoring (if configured)
+#### 3. Test Failures
+```bash
+# Run tests locally
+bun run test --run
+bun run test:e2e
+bun run test:a11y --run
+```
 
-## 🔧 Maintenance
+#### 4. Deployment Issues
+```bash
+# Check Convex deployment
+bunx convex deploy --dry-run
 
-### Weekly Tasks
-- Review dependency update PRs
-- Check security audit results
-- Monitor build performance
-- Update documentation
+# Verify environment variables
+echo $VITE_CONVEX_URL
+echo $VITE_CLERK_PUBLISHABLE_KEY
+```
 
-### Monthly Tasks
-- Review and update CI/CD configuration
-- Optimize build times
-- Update runner versions
-- Security review
+### Debug Mode
 
-## 📚 Additional Resources
+Enable debug logging by adding to workflow environment:
+```yaml
+env:
+  ACTIONS_STEP_DEBUG: true
+  ACTIONS_RUNNER_DEBUG: true
+```
 
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Bun Documentation](https://bun.sh/docs)
-- [Capacitor CI/CD Guide](https://capacitorjs.com/docs/guides/ci-cd)
-- [Convex Deployment Guide](https://docs.convex.dev/production/hosting)
+## Monitoring and Notifications
 
-## 🆘 Support
+### Build Status
+- GitHub Actions provides build status badges
+- Failed builds trigger email notifications to repository admins
 
-If you encounter issues with the CI/CD pipeline:
+### Performance Monitoring
+- Lighthouse CI reports are uploaded to temporary public storage
+- Performance regressions are flagged in PR comments
 
-1. Check the troubleshooting section above
-2. Review GitHub Actions logs
-3. Search existing issues in the repository
-4. Create a new issue with detailed information
+### Security Monitoring
+- Dependency vulnerabilities are reported via `bun audit`
+- Security advisories trigger automated PR creation
 
----
+## Cost Optimization
 
-*This documentation is maintained as part of the FoodyLog project. Please keep it updated as the CI/CD pipeline evolves.*
+### GitHub Actions Minutes
+- **Ubuntu runners**: 1x multiplier
+- **macOS runners**: 10x multiplier (use sparingly)
+- **Optimization**: Cache dependencies, parallel jobs
+
+### Resource Usage
+```yaml
+# Example optimization
+- name: Cache Bun dependencies
+  uses: actions/cache@v4
+  with:
+    path: ~/.bun/install/cache
+    key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+```
+
+## Maintenance
+
+### Regular Tasks
+- **Weekly**: Review failed builds and performance metrics
+- **Monthly**: Update GitHub Actions versions
+- **Quarterly**: Review and update security policies
+
+### Updates
+- Monitor GitHub Actions marketplace for updates
+- Keep Bun, Node.js, and mobile SDKs updated
+- Review and update Lighthouse performance targets
+
+## Support
+
+For issues with the CI/CD pipeline:
+1. Check GitHub Actions logs
+2. Review this documentation
+3. Test locally with the same commands
+4. Create an issue with detailed error logs

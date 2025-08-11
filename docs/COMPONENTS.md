@@ -75,6 +75,8 @@ import { ThemeToggle, CompactThemeToggle, ExtendedThemeToggle } from '~/componen
 
 ## 🧱 UI Components (shadcn/ui)
 
+All UI components are built using shadcn/ui with Radix UI primitives and custom FoodyLog theming. They provide consistent styling, accessibility compliance, and mobile-first responsive design.
+
 ### Button
 **Location**: `src/components/ui/button.tsx`
 
@@ -151,6 +153,67 @@ import { Input } from '~/components/ui/input';
   value={value}
   onChange={handleChange}
 />
+```
+
+### Select
+**Location**: `src/components/ui/select.tsx`
+
+Dropdown selection component built with Radix UI primitives.
+
+```typescript
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '~/components/ui/select';
+
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select meal type..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="breakfast">Breakfast</SelectItem>
+    <SelectItem value="lunch">Lunch</SelectItem>
+    <SelectItem value="dinner">Dinner</SelectItem>
+    <SelectItem value="snack">Snack</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### Tabs
+**Location**: `src/components/ui/tabs.tsx`
+
+Tabbed interface component for organizing content sections.
+
+```typescript
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+
+<Tabs defaultValue="recent">
+  <TabsList>
+    <TabsTrigger value="recent">Recent</TabsTrigger>
+    <TabsTrigger value="favorites">Favorites</TabsTrigger>
+  </TabsList>
+  <TabsContent value="recent">
+    {/* Recent meals content */}
+  </TabsContent>
+  <TabsContent value="favorites">
+    {/* Favorite meals content */}
+  </TabsContent>
+</Tabs>
+```
+
+### Separator
+**Location**: `src/components/ui/separator.tsx`
+
+Visual separator component for dividing content sections.
+
+```typescript
+import { Separator } from '~/components/ui/separator';
+
+<Separator className="my-4" />
+<Separator orientation="vertical" className="mx-4" />
 ```
 
 ### Alert
@@ -419,6 +482,56 @@ import { AuthTestPage } from '~/components/auth/AuthTestPage';
 **Props:** None (self-contained component)
 
 **Security Note:** This component is only accessible to authenticated users via protected routes and is intended for development and testing purposes.
+
+### DeviceEmulationWarning
+**Location**: `src/components/auth/DeviceEmulationWarning.tsx`
+
+Development helper component that shows a dismissible warning banner when device emulation is detected during authentication flows.
+
+```typescript
+import { DeviceEmulationWarning } from '~/components/auth/DeviceEmulationWarning';
+
+// Used in authentication pages
+<DeviceEmulationWarning />
+```
+
+**Features:**
+- **Automatic Detection**: Detects Chrome DevTools device emulation
+- **Development Only**: Only shows in development mode
+- **Dismissible**: Can be dismissed for the current session
+- **Helpful Instructions**: Provides clear steps to resolve Cloudflare issues
+- **Session Storage**: Remembers dismissal state per session
+
+**Purpose:**
+Helps developers avoid Cloudflare verification loops that occur when using Chrome DevTools device emulation during authentication flows.
+
+**Props:** None (self-contained component)
+
+### UserButton
+**Location**: `src/components/auth/UserButton.tsx`
+
+User profile button component with sign-out functionality using Clerk's UserButton.
+
+```typescript
+import { UserButton, SignOutButton } from '~/components/auth/UserButton';
+
+// Full user button with profile menu
+<UserButton />
+
+// Simple sign-out button
+<SignOutButton variant="ghost" size="sm" />
+```
+
+**Features:**
+- **Clerk Integration**: Uses Clerk's UserButton with custom styling
+- **Profile Menu**: Access to account management and sign-out
+- **Custom Styling**: Matches FoodyLog design system
+- **Responsive**: Shows user info on larger screens
+- **Alternative Component**: Simple SignOutButton for minimal use cases
+
+**Props:**
+- `UserButton`: None (self-contained)
+- `SignOutButton`: `variant?`, `size?` (button styling options)
 
 ## 🔐 Authentication Patterns
 
@@ -779,22 +892,26 @@ import { useTheme } from '~/lib/theme';
 Planned components for upcoming sprints:
 
 ### Sprint 2: Core Meal Logging
-- **MealCard** - Display meal entries
-- **PhotoCapture** - Camera integration
-- **MealForm** - Add/edit meal form
-- **RatingInput** - Star rating component
+- **MealCard** - Display meal entries with photos and ratings
+- **PhotoCapture** - Camera integration with Capacitor Camera plugin
+- **MealForm** - Add/edit meal form with validation
+- **RatingInput** - Star rating component (1-10 scale)
+- **TagInput** - Tag management with autocomplete
+- **LocationPicker** - Restaurant/location selection
 
 ### Sprint 3: Meal Management & Search
-- **SearchBar** - Meal search interface
-- **FilterPanel** - Advanced filtering
-- **MealList** - Paginated meal display
-- **TagInput** - Tag management
+- **SearchBar** - Meal search interface with filters
+- **FilterPanel** - Advanced filtering (date, rating, tags, price)
+- **MealList** - Paginated meal display with infinite scroll
+- **MealDetail** - Detailed meal view with edit/delete actions
+- **PhotoGallery** - Multiple photo display and management
 
 ### Sprint 4: Analytics & Polish
-- **AnalyticsChart** - Data visualization
-- **StatsCard** - Metric display
-- **ExportDialog** - Data export
-- **SettingsPanel** - User preferences
+- **AnalyticsChart** - Data visualization with Chart.js
+- **StatsCard** - Metric display (spending, ratings, frequency)
+- **ExportDialog** - Data export (CSV, JSON)
+- **SettingsPanel** - User preferences and account management
+- **NotificationCenter** - Push notification management
 
 ---
 

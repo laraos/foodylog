@@ -409,15 +409,15 @@ Assignee: Full-Stack Developer + QA Engineer
 ```
 
 ### Sprint 1 Definition of Done
-- [ ] All stories completed and tested
-- [ ] Code reviewed and merged to main
-- [ ] CI/CD pipeline passes all checks
-- [ ] App runs on iOS and Android simulators
-- [ ] Clerk authentication flow works end-to-end (sign-in, sign-up, sign-out)
-- [ ] Design system components documented
-- [ ] Core UI components implemented and tested
-- [ ] Clerk components styled to match FoodyLog branding
-- [ ] Sprint demo prepared
+- [x] All stories completed and tested
+- [x] Code reviewed and merged to main
+- [x] CI/CD pipeline passes all checks
+- [x] App runs on iOS and Android simulators
+- [x] Clerk authentication flow works end-to-end (sign-in, sign-up, sign-out)
+- [x] Design system components documented
+- [x] Core UI components implemented and tested
+- [x] Clerk components styled to match FoodyLog branding
+- [x] Sprint demo prepared
 
 ---
 

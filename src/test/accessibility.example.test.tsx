@@ -14,7 +14,6 @@ import { describe, test, expect, vi } from 'vitest';
 import { 
   testAccessibility, 
   testKeyboardNavigation, 
-  testFocusTrap,
   testScreenReaderAnnouncements,
   testColorContrast,
   mockScreenReader 
