@@ -24,7 +24,7 @@ describe('Card Accessibility', () => {
         <CardFooter>
           <p>Rating: 9/10</p>
         </CardFooter>
-      </Card>
+      </Card>,
     );
 
     await testAccessibility(renderResult, {
@@ -41,7 +41,7 @@ describe('Card Accessibility', () => {
           <CardDescription>Yamato Sushi Restaurant</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Fresh sashimi and perfectly seasoned rice. The chef's special roll was outstanding.</p>
+          <p>Fresh sashimi and perfectly seasoned rice. The chef&apos;s special roll was outstanding.</p>
           <div aria-label="Meal details">
             <p>Date: March 15, 2024</p>
             <p>Price: $45</p>
@@ -53,7 +53,7 @@ describe('Card Accessibility', () => {
             <span>Rating: 10/10</span>
           </div>
         </CardFooter>
-      </Card>
+      </Card>,
     );
 
     const { getByRole } = renderResult;
@@ -96,7 +96,7 @@ describe('Card Accessibility', () => {
         <CardContent>
           <p>Classic cheeseburger with crispy fries.</p>
         </CardContent>
-      </Card>
+      </Card>,
     );
 
     const { getByRole } = renderResult;
@@ -147,7 +147,7 @@ describe('Card Accessibility', () => {
             Save Meal
           </button>
         </CardFooter>
-      </Card>
+      </Card>,
     );
 
     await testAccessibility(renderResult, {
@@ -167,12 +167,12 @@ describe('Card Accessibility', () => {
         </div>
         <CardHeader>
           <CardTitle id="pizza-title">Margherita Pizza</CardTitle>
-          <CardDescription>Tony's Pizzeria</CardDescription>
+          <CardDescription>Tony&apos;s Pizzeria</CardDescription>
         </CardHeader>
         <CardContent>
           <p>Authentic Neapolitan-style pizza with perfect crust and fresh ingredients.</p>
         </CardContent>
-      </Card>
+      </Card>,
     );
 
     const { getByRole } = renderResult;
@@ -201,7 +201,7 @@ describe('Card Accessibility', () => {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card>,
     );
 
     const { getByRole } = renderResult;
@@ -249,7 +249,7 @@ describe('Card Accessibility', () => {
             Delete
           </button>
         </CardFooter>
-      </Card>
+      </Card>,
     );
 
     const buttons = renderResult.getAllByRole('button');
@@ -270,7 +270,7 @@ describe('Card Accessibility', () => {
         <Card role="article">
           <CardHeader>
             <h2 className="text-2xl font-semibold leading-none tracking-tight">Recent Dinner</h2>
-            <CardDescription>Last night's meal</CardDescription>
+            <CardDescription>Last night&apos;s meal</CardDescription>
           </CardHeader>
           <CardContent>
             <h3>Restaurant Details</h3>
@@ -279,7 +279,7 @@ describe('Card Accessibility', () => {
             <p>Excellent pasta with garlic bread.</p>
           </CardContent>
         </Card>
-      </div>
+      </div>,
     );
 
     // Check heading hierarchy (h1 -> h2 -> h3)

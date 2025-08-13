@@ -13,7 +13,7 @@ import { testAccessibility, testKeyboardNavigation } from '../../../test/accessi
 describe('Button Accessibility', () => {
   it('should pass all accessibility tests', async () => {
     const renderResult = render(
-      <Button>Click me</Button>
+      <Button>Click me</Button>,
     );
 
     await testAccessibility(renderResult, {
@@ -24,7 +24,7 @@ describe('Button Accessibility', () => {
   it('should support keyboard navigation', async () => {
     const handleClick = vi.fn();
     const renderResult = render(
-      <Button onClick={handleClick}>Click me</Button>
+      <Button onClick={handleClick}>Click me</Button>,
     );
 
     const focusableElements = await testKeyboardNavigation(renderResult, 1);
@@ -42,7 +42,7 @@ describe('Button Accessibility', () => {
 
   it('should have proper disabled state', () => {
     const { getByRole } = render(
-      <Button disabled>Disabled button</Button>
+      <Button disabled>Disabled button</Button>,
     );
 
     const button = getByRole('button');
@@ -56,7 +56,7 @@ describe('Button Accessibility', () => {
     
     for (const variant of variants) {
       const renderResult = render(
-        <Button variant={variant}>Button {variant}</Button>
+        <Button variant={variant}>Button {variant}</Button>,
       );
 
       // Each variant should pass accessibility tests
@@ -74,7 +74,7 @@ describe('Button Accessibility', () => {
       <Button disabled>
         <span className="sr-only">Loading...</span>
         Loading
-      </Button>
+      </Button>,
     );
 
     const { container } = renderResult;
@@ -98,7 +98,7 @@ describe('Button Accessibility', () => {
     const renderResult = render(
       <Button aria-label="Close dialog" size="icon">
         <span aria-hidden="true">×</span>
-      </Button>
+      </Button>,
     );
 
     const { getByRole } = renderResult;
@@ -117,7 +117,7 @@ describe('Button Accessibility', () => {
 
   it('should maintain focus visibility', () => {
     const { getByRole } = render(
-      <Button>Focus me</Button>
+      <Button>Focus me</Button>,
     );
 
     const button = getByRole('button');
@@ -135,7 +135,7 @@ describe('Button Accessibility', () => {
     const { getByRole } = render(
       <form onSubmit={handleSubmit}>
         <Button type="submit">Submit</Button>
-      </form>
+      </form>,
     );
 
     const button = getByRole('button');

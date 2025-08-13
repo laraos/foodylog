@@ -38,26 +38,63 @@ export {
   PriceBadge, 
   badgeVariants, 
 } from './badge';
-export { Skeleton } from './skeleton';
 export { Alert, AlertDescription, AlertTitle } from './alert';
+
+// Toast notification system
+export {
+  Toast,
+  ToastProvider,
+  ToastViewport,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+  ToastIcon,
+  ToastWithIcon,
+  toastVariants,
+} from './toast';
+export { Toaster } from './toaster';
+export { 
+  useToast,
+  toast,
+  showSuccessToast,
+  showErrorToast,
+  showWarningToast,
+  showInfoToast,
+  showMealSavedToast,
+  showPhotoUploadToast,
+  showOfflineSyncToast,
+  showNetworkErrorToast,
+} from '../../hooks/use-toast';
 
 // FoodyLog-specific loading components
 export { 
   LoadingSpinner, 
   InlineSpinner, 
-  ButtonSpinner, 
+  ButtonSpinner,
+  FoodyLogSpinner,
+  CameraSpinner,
+  PulseLoader,
 } from './LoadingSpinner';
 export {
   MealCardSkeleton,
-  MealListSkeleton,
-  FormSkeleton,
+  MealFormSkeleton,
+  StatsCardSkeleton,
+  SearchResultsSkeleton,
+  PhotoGridSkeleton,
   PageLoadingSpinner,
   InlineLoader,
   ButtonLoader,
   ProgressLoader,
+  CircularProgress,
   SearchLoader,
   PhotoUploadLoader,
+  SyncLoader,
+  TableLoader,
 } from './loading';
+export {
+  Skeleton,
+} from './skeleton';
 
 // FoodyLog-specific error components
 export {

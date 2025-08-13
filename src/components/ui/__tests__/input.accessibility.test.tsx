@@ -16,7 +16,7 @@ describe('Input Accessibility', () => {
       <div>
         <label htmlFor="test-input">Email address</label>
         <Input id="test-input" type="email" placeholder="Enter your email" />
-      </div>
+      </div>,
     );
 
     await testAccessibility(renderResult, {
@@ -29,7 +29,7 @@ describe('Input Accessibility', () => {
       <div>
         <label htmlFor="test-input">Name</label>
         <Input id="test-input" type="text" />
-      </div>
+      </div>,
     );
 
     await testKeyboardNavigation(renderResult, 1);
@@ -37,7 +37,7 @@ describe('Input Accessibility', () => {
 
   it('should support aria-label when no visible label', async () => {
     const renderResult = render(
-      <Input aria-label="Search meals" type="search" placeholder="Search..." />
+      <Input aria-label="Search meals" type="search" placeholder="Search..." />,
     );
 
     const { getByRole } = renderResult;
@@ -63,7 +63,7 @@ describe('Input Accessibility', () => {
         <div id="error-message" role="alert">
           Please enter a valid email address
         </div>
-      </div>
+      </div>,
     );
 
     const { getByRole } = renderResult;
@@ -92,7 +92,7 @@ describe('Input Accessibility', () => {
           required 
           aria-required="true"
         />
-      </div>
+      </div>,
     );
 
     const { getByRole } = renderResult;
@@ -111,7 +111,7 @@ describe('Input Accessibility', () => {
       <div>
         <label htmlFor="disabled-input">Disabled field</label>
         <Input id="disabled-input" type="text" disabled />
-      </div>
+      </div>,
     );
 
     const { getByRole } = renderResult;
@@ -141,7 +141,7 @@ describe('Input Accessibility', () => {
         <div>
           <label htmlFor={`${type}-input`}>{type} field</label>
           <Input id={`${type}-input`} type={type} />
-        </div>
+        </div>,
       );
 
       const { getByRole } = renderResult;
@@ -162,7 +162,7 @@ describe('Input Accessibility', () => {
       <div>
         <label htmlFor="password-input">Password field</label>
         <Input id="password-input" type="password" />
-      </div>
+      </div>,
     );
 
     const passwordInput = passwordResult.container.querySelector('#password-input');
@@ -189,7 +189,7 @@ describe('Input Accessibility', () => {
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-      </div>
+      </div>,
     );
 
     const input = getByRole('textbox');
@@ -214,7 +214,7 @@ describe('Input Accessibility', () => {
           type="email" 
           autoComplete="email"
         />
-      </div>
+      </div>,
     );
 
     const { getByRole } = renderResult;
@@ -236,7 +236,7 @@ describe('Input Accessibility', () => {
           type="search" 
           placeholder="Enter meal name or restaurant"
         />
-      </div>
+      </div>,
     );
 
     const { getByRole } = renderResult;

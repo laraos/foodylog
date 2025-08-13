@@ -20,6 +20,32 @@
     <meta name="msapplication-config" content="/browserconfig.xml" />
     
     <title>FoodyLog</title>
+    
+    <!-- FOUC Prevention Script - Must run before React loads -->
+    <script>
+      (function() {
+        try {
+          // Get stored theme preference or default to 'system'
+          const storedTheme = localStorage.getItem('foodylog-ui-theme') || 'system';
+          const root = document.documentElement;
+          
+          // Remove any existing theme classes
+          root.classList.remove('light', 'dark');
+          
+          if (storedTheme === 'system') {
+            // Check system preference
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            root.classList.add(systemTheme);
+          } else {
+            // Apply stored theme directly
+            root.classList.add(storedTheme);
+          }
+        } catch (e) {
+          // Fallback to light theme if localStorage is not available
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

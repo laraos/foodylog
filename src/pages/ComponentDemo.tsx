@@ -40,8 +40,8 @@ import {
   InlineSpinner,
   ButtonSpinner,
   MealCardSkeleton,
-  MealListSkeleton,
-  FormSkeleton,
+  SearchResultsSkeleton,
+  MealFormSkeleton,
   ProgressLoader,
   ErrorMessage,
   NetworkError,
@@ -334,11 +334,11 @@ export function ComponentDemo() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
                 <h4 className="text-sm font-medium mb-3">Meal List Skeleton</h4>
-                <MealListSkeleton count={3} />
+                <SearchResultsSkeleton count={3} />
               </div>
               <div>
                 <h4 className="text-sm font-medium mb-3">Form Skeleton</h4>
-                <FormSkeleton />
+                <MealFormSkeleton />
               </div>
             </div>
           </div>

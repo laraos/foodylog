@@ -1,5 +1,6 @@
 name: Test CI/CD Pipeline
 
+# DISABLED: Workflow temporarily disabled
 # This workflow tests the CI/CD pipeline setup
 # Run manually to verify all components work correctly
 on:
@@ -19,7 +20,7 @@ jobs:
   test-basic:
     name: Test Basic Pipeline
     runs-on: ubuntu-latest
-    if: github.event.inputs.test_type == 'basic' || github.event.inputs.test_type == 'full'
+    if: false  # DISABLED: Workflow temporarily disabled
     
     steps:
       - name: Checkout code

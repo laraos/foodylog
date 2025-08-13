@@ -10,7 +10,10 @@ import { afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { setupMocks, resetMocks } from './mocks';
-import 'jest-axe/extend-expect';
+
+// Setup jest-axe matchers
+import { toHaveNoViolations } from 'jest-axe';
+expect.extend(toHaveNoViolations);
 
 // Setup all mocks before tests run
 setupMocks();

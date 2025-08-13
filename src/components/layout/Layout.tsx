@@ -12,11 +12,13 @@
  * - Smooth page transitions with react-router-dom
  * - Consistent spacing and accessibility landmarks
  * - WCAG 2.1 AA compliant navigation
+ * - Enhanced page transitions and navigation animations
  */
 
 import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Navigation } from './Navigation';
+import { PageTransition } from './PageTransition';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -28,6 +30,7 @@ interface AppLayoutProps {
  * Wraps all pages with consistent header and navigation.
  * Uses CSS Grid for optimal layout performance and flexibility.
  * Implements mobile-first design with responsive breakpoints.
+ * Includes smooth page transitions.
  */
 export function AppLayout({ children }: AppLayoutProps) {
   return (
@@ -38,7 +41,9 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Main content area with page transitions */}
       <main className="app-layout__main" role="main" aria-label="Main content">
         <div className="app-layout__content">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </div>
       </main>
 

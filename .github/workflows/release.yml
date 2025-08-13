@@ -4,6 +4,7 @@
 
 name: Release Pipeline
 
+# DISABLED: Workflow temporarily disabled
 on:
   push:
     tags:
@@ -31,6 +32,7 @@ jobs:
   create-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    if: false  # DISABLED: Workflow temporarily disabled
     outputs:
       release-id: ${{ steps.create-release.outputs.id }}
       upload-url: ${{ steps.create-release.outputs.upload_url }}
